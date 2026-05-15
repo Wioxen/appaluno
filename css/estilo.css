@@ -1,0 +1,397 @@
+﻿body{
+    width: 100%;
+    height: auto;
+    /*background-image:url('http://www.sistema2.com.br/appaluno/images/bgapp.jpg');*/
+    /*background:linear-gradient(to right, rgba(131,58,180,0.62) 0%, rgba(253,29,29,0.62) 50%, rgba(252,173,68,0.62) 99%, rgba(252,176,69,0) 100%), url('/images/yosemite.jpg') center center no-repeat;*/
+    background-size: cover;
+    font-family: Poppins;    
+}
+.sejabemvindo{
+    font-family: 'Segoe Script'; 
+    font-size: 19px; 
+    color: white;
+}
+.seialunologotipo{
+    opacity:0.3;
+}
+#txtCodEscola{
+        border: none;
+    background-image: url('/images/bginput.png');
+    color: black;
+    border-radius:0 5px 5px 0;
+    opacity:0.7;
+}
+
+#btnEntrar{
+    /*background-image: url('/images/bginput1.png');*/
+    border-color:white;
+    color: #808080;
+    font-weight:bold;
+    border-radius:5px 5px 5px 5px;
+    font-variant: small-caps;
+    letter-spacing:3px
+}
+.x{
+    background-color:#EDE0FE;
+}
+.y{
+    background-color:#D5A9C0;
+}
+.inputlogin {
+    border: none;
+    background-image: url('/images/bginput.png');
+    color: black;
+    border-radius:0 5px 5px 0;
+    opacity:0.7;
+}
+#txtMatricula {
+    border-radius: 0 5px 5px 0;
+}
+#txtPass {
+    border-radius: 0 5px 5px 0;
+}
+.input:hover[type="text"] {
+    background: #C184A9;
+}
+.inputlogin::-webkit-input-placeholder {
+    color: black;
+    font-variant: small-caps;
+    letter-spacing:3px
+}
+
+.foto {
+    border-radius: 100%;
+    position: absolute;
+    z-index: 1;
+    width: 75px;
+    height: 75px;
+    margin-top: -3.5em;
+    margin-left: 0.9em;
+    padding: 1px;
+    border: 3px solid #d2d6de;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+.fotoOcorrencia {
+    border-radius: 100%;
+    position: absolute;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    margin-top: 1.0em;
+    padding: 2px;
+    border: 3px solid #d2d6de;
+}
+#logotipo {
+    padding-bottom: 12px;
+    padding-top: 12px;
+    width: 65px;
+    height: auto
+}
+.image {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
+    width: 70px;
+    height: 70px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    background-color: white;
+}
+
+    .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 25px;
+    }
+
+    .btn-circle.btn-xl {
+        width: 60px;
+        height: 60px;
+        padding: 10px 16px;
+        font-size: 24px;
+        line-height: 1.33;
+        border-radius: 35px;
+        margin-right: 11px;
+    }
+
+.quick-btn {
+    background: #eee;
+    -webkit-box-shadow: 0 0 0 1px #F8F8F8 inset, 0 0 0 1px #CCCCCC;
+    box-shadow: 0 0 0 1px #F8F8F8 inset, 0 0 0 1px #CCCCCC;
+    color: #444;
+    display: inline-block;
+
+    height: 80px;
+    margin: 10px;
+    padding-top: 16px;
+    text-align: center;
+    text-decoration: none;
+    width: 90px;
+    position: relative;
+}
+.aMenu {
+    color: white;
+    margin-top: -0.62em;
+    margin-left: -1em;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: #333; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+However, delay the fade out process for 2.5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+    .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 25px;
+    }
+
+    .btn-circle.btn-xl {
+        width: 70px;
+        height: 70px;
+        padding: 10px 16px;
+        font-size: 24px;
+        line-height: 1.33;
+        border-radius: 35px;
+    }
+
+.fixed .content-wrapper, .fixed .right-side {
+    padding-top: 50px;
+}
+
+.modal-dialog2 {
+    height: calc(100% - 20px);
+}
+
+.modal-content2 {
+    height: 100%;
+}
+
+.modal-header2 {
+    height: 70px;
+}
+
+.model-footer2 {
+    height: 75px;
+}
+
+.modal-body2 {
+    overflow-y: scroll;
+    height: calc(100% - 70px);
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+    border-top-color: silver;
+}
+
+.azul {
+    background-color: #3A417B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#nav {
+    position: fixed;
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
+    #nav > ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+        #nav > ul > li {
+            margin: 0 10px;
+        }
+
+            #nav > ul > li > a {
+                text-decoration: none;
+                color: #121212;
+            }
+
+                #nav > ul > li > a > ion-icon {
+                    display: none;
+                    font-size: 20px;
+                    color: #f1f1f1;
+                    background: #1a7523;
+                    padding: 5px;
+                    border-radius: 4px;
+                }
+
+@media screen and (max-width:768px) {
+    #nav {
+        bottom: 0;
+        top: unset;
+        height: 50px;
+    }
+
+        #nav > ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0;
+            height: 100%;
+        }
+
+            #nav > ul > li {
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+                #nav > ul > li > a {
+                    text-decoration: none;
+                    color: #121212;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                    #nav > ul > li > a > ion-icon {
+                        display: block;
+                    }
+
+                    #nav > ul > li > a > span {
+                        display: none;
+                    }
+}
+
+
+
+/* Solução 5 corrigida - mantém largura do Bootstrap */
+#exampleModal .modal-dialog {
+  margin: 10vh auto !important;
+  max-height: 80vh;
+  width: auto !important; /* Mantém a largura original */
+  max-width: 90% !important; /* Ajuste conforme necessário */
+}
+
+/* Para telas maiores */
+@media (min-width: 768px) {
+  #exampleModal .modal-dialog {
+    margin: 5% auto !important;
+    max-width: 600px !important; /* Largura padrão do modal-md */
+  }
+}
+
+@media (min-width: 992px) {
+  #exampleModal .modal-dialog {
+    max-width: 900px !important; /* Largura padrão do modal-lg, se necessário */
+  }
+}
