@@ -677,8 +677,6 @@
     <script src="js/vejamais.js"></script>
     <script src="js/agenda.js"></script>
     <script src="js/atividade.js"></script>
-    <script src="js/quadrohorario.js"></script>
-    <script src="js/modalForm.js"></script>
     <script src="dist/clipboard.min.js"></script>
     <script src="js/jquery.toast.js"></script>
     <script src="js/ir.js"></script>
