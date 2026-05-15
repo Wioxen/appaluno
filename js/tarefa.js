@@ -274,15 +274,15 @@ function zMesExt(zdata) {
     var arr = data.split("/").reverse();
     var teste = new Date(arr[0], arr[1] - 1, arr[2]);
     var dia = teste.getDay();
-    // Obtém a data/hora atual
+    // ObtÃ©m a data/hora atual
     var data = new Date();
 
-    // Guarda cada pedaço em uma variável
+    // Guarda cada pedaÃ§o em uma variÃ¡vel
     var xdia = data.getDate();           // 1-31
     var dia_sem = data.getDay();            // 0-6 (zero=domingo)
     var mes = data.getMonth();          // 0-11 (zero=janeiro)
-    var ano2 = data.getYear();           // 2 dígitos
-    var ano4 = data.getFullYear();       // 4 dígitos
+    var ano2 = data.getYear();           // 2 dÃ­gitos
+    var ano4 = data.getFullYear();       // 4 dÃ­gitos
     var hora = data.getHours();          // 0-23
     var min = data.getMinutes();        // 0-59
     var seg = data.getSeconds();        // 0-59
@@ -297,7 +297,7 @@ function zMesExt(zdata) {
         mes = '0' + mes;
     }
 
-    // Formata a data e a hora (note o mês + 1)
+    // Formata a data e a hora (note o mÃªs + 1)
     var str_data = xdia + '-' + (mes) + '-' + ano4;
     var str_data1 = (((xdia - 1) < 10) ? '0' + (xdia - 1) : (xdia - 1)) + '-' + (mes) + '-' + ano4;
     var str_data2 = (xdia + 1) + '-' + (mes) + '-' + ano4;
@@ -312,7 +312,7 @@ function zMesExt(zdata) {
             semana[dia] = "ONTEM";
         } else {
             if (str_data2 == zdata.split('/')[0] + '-' + zdata.split('/')[1] + '-' + zdata.split('/')[2]) {
-                semana[dia] = "AMANHÃ";
+                semana[dia] = "AMANHÃƒ";
             } else {
                 //console.log(str_data2 + zdata.split('/')[0] + '-' + zdata.split('/')[1] + '-' + zdata.split('/')[2]);
             }
@@ -322,7 +322,7 @@ function zMesExt(zdata) {
     switch (vMes) {
         case "01": vMes = "janeiro"; break;
         case "02": vMes = "fevereiro"; break;
-        case "03": vMes = "março"; break;
+        case "03": vMes = "marÃ§o"; break;
         case "04": vMes = "abril"; break;
         case "05": vMes = "maio"; break;
         case "06": vMes = "junho"; break;
