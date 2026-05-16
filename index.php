@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+<?php
+// Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
+// no navegador dos usuários (cache busting).
+$ASSET_VERSION = '20260516a';
+?>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://fonts.cdnfonts.com/css/poppins" rel="stylesheet">
@@ -40,7 +45,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link href="css/estilo.css" rel="stylesheet" />
+    <link href="css/estilo.css?v=<?php echo $ASSET_VERSION; ?>" rel="stylesheet" />
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
     <link href="css/jquery.loadingModal.css" rel="stylesheet" />
@@ -724,32 +729,32 @@
     <script src="dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
 
-    <script src="js/funcoes.js"></script>
+    <script src="js/funcoes.js?v=<?php echo $ASSET_VERSION; ?>"></script>
 
     <script src="dist/js/demo.js"></script>
-    <script src="js/jquery.loadingModal.js"></script>
-    <script src="js/lib.js"></script>
-    <script src="js/tarefa.js"></script>
-    <script src="js/cotidiano.js"></script>
-    <script src="js/ocorrencia.js"></script>
-    <script src="js/notificacao.js"></script>
-    <script src="js/boletim.js"></script>
-    <script src="js/nota.js"></script>
-    <script src="js/boleto.js"></script>
-    <script src="js/alunos.js"></script>
-    <script src="js/eventos.js"></script>
-    <script src="js/galeria.js"></script>
-    <script src="js/enquete.js"></script>
-    <script src="js/gradeaula.js"></script>
-    <script src="js/video.js"></script>
-    <script src="js/documento.js"></script>
-    <script src="js/contato.js"></script>
-    <script src="js/vejamais.js"></script>
-    <script src="js/agenda.js"></script>
-    <script src="js/atividade.js"></script>
-    <script src="dist/clipboard.min.js"></script>
-    <script src="js/jquery.toast.js"></script>
-    <script src="js/ir.js"></script>
+    <script src="js/jquery.loadingModal.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/lib.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/tarefa.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/cotidiano.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/ocorrencia.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/notificacao.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/boletim.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/nota.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/boleto.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/alunos.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/eventos.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/galeria.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/enquete.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/gradeaula.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/video.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/documento.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/contato.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/vejamais.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/agenda.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/atividade.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="dist/clipboard.min.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/jquery.toast.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+    <script src="js/ir.js?v=<?php echo $ASSET_VERSION; ?>"></script>
 
     <!-- Ao abrir o modal de loading, pinta o backdrop do Bootstrap de branco -->
     <script>
