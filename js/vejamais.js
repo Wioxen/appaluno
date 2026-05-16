@@ -6,8 +6,6 @@ function exibeVeja(data) {
 
     $('.modal-body2').html('<ul class="list-group list-group-flush"></ul>');
 
-    //$(".modal-body2 > ul").append('<a href="'+'http://www.sistema2.com.br/appaluno/url.php?codEscola=' + $(".fotoAtual").attr("data-escola") + '&url=' + 'https://www.google.com/'+'" target="blank">Google</a>');
-
     $.each(data, function (index, value) {
         $(".modal-body2 > ul").append('<li class="list-group-item botaoVejaMais" data-id="' + value.Id + '" style="padding-top: 0px;padding-bottom: 0px;">'+
             ((value.dataHora.split(' ')[1] == undefined) ?
@@ -33,17 +31,8 @@ function exibeVeja(data) {
                 $("#loadvj" + _this.attr('data-id')).html('<img src="images/simple_loading.gif" style="height: 32px; width: auto;">');
             },
             success: function (data) {
-                var _href = 'http://www.sistema2.com.br/appaluno/url.php?codEscola=' + data.Escola + '&url=' + data.Link;
-
-                var isiPhone = / iphone/i.test(navigator.userAgent.toLowerCase());
-
-                if (isiPhone) {
-                    if (vs === "1")
-                        _href = data.Link;
-                }
-
+                var _href = 'https://alunoapp.sistema2.com.br/url.php?codEscola=' + data.Escola + '&url=' + data.Link;
                 setTimeout(function () {
-                    console.log('2.2.2');
                     $("#loadvj" + _this.attr('data-id')).empty();
                     window.open(_href, '_blank');
                 }, 500);
