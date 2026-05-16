@@ -353,10 +353,80 @@
         }
     </style>
 
+    <!-- ===== CSS de pré-loading: oculta o app até a requisição inicial concluir ===== -->
+    <style>
+        /* Esconde TODO o conteúdo do app antes do bootstrap da página */
+        html, body { background: #ffffff; }
+        body > .wrapper { visibility: hidden; }
+        body.app-ready > .wrapper { visibility: visible; }
+
+        /* Splash inicial enquanto JS ainda não rodou (antes do modal abrir).
+           Garante fundo branco com logo + spinner ANTES de qualquer modal. */
+        #preloadSplash {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+        body.app-ready #preloadSplash { display: none; }
+
+        #preloadSplash .pl-ring {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #preloadSplash .pl-ring::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #28a7a8;
+            border-right-color: rgba(40, 167, 168, 0.3);
+            animation: plSpin 1.1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+            box-shadow: 0 0 30px rgba(40, 167, 168, 0.15);
+        }
+        @keyframes plSpin { to { transform: rotate(360deg); } }
+        #preloadSplash .pl-logo {
+            width: 130px;
+            height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: plPulse 2.2s ease-in-out infinite;
+        }
+        #preloadSplash .pl-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        @keyframes plPulse {
+            0%, 100% { transform: scale(1);    filter: brightness(1); }
+            50%      { transform: scale(1.04); filter: brightness(1.05); }
+        }
+    </style>
+
     <script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 
 <body class="hold-transition skin-green layout-top-nav fixed">
+
+    <!-- Splash inicial: aparece IMEDIATAMENTE, antes mesmo do JS rodar -->
+    <div id="preloadSplash" aria-hidden="true">
+        <div class="pl-ring">
+            <div class="pl-logo">
+                <img src="./images/<?php echo htmlspecialchars($_GET['codescola'] ?? '', ENT_QUOTES, 'UTF-8'); ?>.png"
+                     alt="" onerror="this.style.display='none'" />
+            </div>
+        </div>
+    </div>
+
     <a id="bTeste" href="#"></a>
 
     <form id="formMain">

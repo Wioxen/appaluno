@@ -1,4 +1,4 @@
-﻿var vs = "";
+var vs = "";
 var $dados = {};
 var $alunos = [];
 var $local = [];
@@ -16,6 +16,10 @@ var vSenhaNet = undefined;
 var id = undefined;
 
 $(document).ready(function () {
+    // Abre o modal de loading IMEDIATAMENTE, antes de qualquer outra inicialização.
+    // O splash em #preloadSplash continua visível por baixo, evitando qualquer flash do conteúdo.
+    $('#exampleModal2').modal({ backdrop: 'static', keyboard: false, show: true });
+
     $isiPhone = / iphone/i.test(navigator.userAgent.toLowerCase());
 
     $(window).scroll(function () {
@@ -384,7 +388,7 @@ $(document).ready(function () {
   
     $(".lb").addClass('lb label pull bg-' + $("#cor").val() + '-gradient');
 
-    $("#idRegistro").attr('href', './registro.php?codEscola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs);
+    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs);
 
     $(".menu").off('click');
 
@@ -469,12 +473,18 @@ $(document).ready(function () {
                     }
                 });
 
+                // Dados já carregados e DOM populado: revela o app e fecha o loading
+                $('body').addClass('app-ready');
+                $('#exampleModal2').modal('hide');
+
                 //$('#atualiza').submit();
             },
         beforeSend: aguarda2,
         error: function (request, status, error) {
-            window.location.href = './registro.php?codEscola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs;
+            // Esconde o splash inicial enquanto navega, evita ficar com tela em branco
+            $('body').addClass('app-ready');
             $('#exampleModal2').modal('hide');
+            window.location.href = './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs;
         }
     });
 });
