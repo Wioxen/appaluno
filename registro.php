@@ -290,58 +290,6 @@ $logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
             to { transform: rotate(360deg); }
         }
 
-        /* Splash de redirecionamento — fullscreen, fundo branco opaco.
-           Mesma identidade visual do splash inicial do index.php
-           para que a transição entre as duas páginas seja imperceptível. */
-        .redirect-splash {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-        }
-
-        .redirect-splash.active { display: flex; }
-
-        .redirect-splash .pl-ring {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .redirect-splash .pl-ring::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: var(--brand);
-            border-right-color: rgba(40, 167, 168, 0.3);
-            animation: spinit 1.1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
-            box-shadow: 0 0 30px rgba(40, 167, 168, 0.15);
-        }
-        .redirect-splash .pl-logo {
-            width: 130px;
-            height: 130px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: rsPulse 2.2s ease-in-out infinite;
-        }
-        .redirect-splash .pl-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        @keyframes rsPulse {
-            0%, 100% { transform: scale(1);    filter: brightness(1); }
-            50%      { transform: scale(1.04); filter: brightness(1.05); }
-        }
-
         @media (max-width: 380px) {
             .login-form .form-row label { min-width: 84px; font-size: 14px; }
             .login-title { font-size: 24px; }
@@ -408,16 +356,6 @@ $logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
         <div class="spinner" role="status" aria-label="Carregando"></div>
     </div>
 
-    <!-- Splash fullscreen exibido durante a navegação para o index.php.
-         Tem o mesmo visual do splash inicial do index.php para que a transição entre páginas seja contínua. -->
-    <div class="redirect-splash" id="redirectSplash" aria-hidden="true">
-        <div class="pl-ring">
-            <div class="pl-logo">
-                <img src="<?php echo $logoUrlSafe; ?>" alt="" onerror="this.style.display='none'" />
-            </div>
-        </div>
-    </div>
-
     <script>
         // ===== Parâmetros vindos do PHP =====
         var PARAMS = {
@@ -461,16 +399,7 @@ $logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
                 '&id='       + encodeURIComponent(PARAMS.id) +
                 '&vs='       + encodeURIComponent(PARAMS.vs) +
                 '&op=1';
-
-            // Mostra splash fullscreen ANTES de navegar.
-            // O index.php tem o mesmo splash visual; a transição fica imperceptível.
-            $('#redirectSplash').addClass('active');
-
-            // Pequeno delay para o splash de fato ser pintado antes da navegação.
-            // Sem isso, navegadores podem disparar o request antes do paint.
-            setTimeout(function () {
-                window.location.href = REDIRECT_URL + '?' + qs;
-            }, 50);
+            window.location.href = REDIRECT_URL + '?' + qs;
         }
 
         // ===== Submit =====
