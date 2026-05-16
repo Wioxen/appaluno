@@ -12,6 +12,8 @@ var $thisButton = undefined;
  * função aguarda o evento 'shown.bs.modal' se necessário, e como rede de
  * segurança força o fechamento após 600ms removendo classes e backdrop.
  */
+ 
+ 
 function fecharLoadingModal() {
     var $m = $('#exampleModal1');
     if ($m.length === 0) return;
