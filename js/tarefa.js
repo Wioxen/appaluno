@@ -207,6 +207,8 @@ function tarefa() {
 
             $('#btnMaisTarefa').button('reset');
             $("#aguarde").hide();
+			$('#exampleModal1').modal('hide');
+
             if ($('#myModal:visible').length === 0) {
                 $('#myModal').modal('show');
                 setTimeout(function (e) {
