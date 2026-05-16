@@ -1,6 +1,43 @@
 var $pagina = 1;
 var $thisButton = undefined;
 
+/**
+ * Fecha o exampleModal1 de forma robusta, mesmo durante a animação de abertura.
+ *
+ * Problema: se chamarmos $('#exampleModal1').modal('hide') durante a transição
+ * de 'show' (que dura ~300ms no Bootstrap), o modal entra em estado inconsistente
+ * e fica visível na tela. Esta função:
+ *   1. Se o modal ainda não terminou de abrir, espera o evento 'shown.bs.modal'
+ *      e só então fecha.
+ *   2. Se já está totalmente aberto, fecha imediatamente.
+ *   3. Como rede de segurança, força o fechamento via remoção de classes/backdrop
+ *      caso o Bootstrap não responda.
+ */
+function fecharLoadingModal() {
+    var $m = $('#exampleModal1');
+    if ($m.length === 0) return;
+
+    // Se nem está aberto, não há nada a fazer
+    if (!$m.hasClass('in') && !$m.hasClass('show')) {
+        // Mas pode estar em meio à animação de show — registra para fechar depois
+        $m.one('shown.bs.modal', function () {
+            $m.modal('hide');
+        });
+        $m.modal('hide'); // tenta também imediatamente
+    } else {
+        $m.modal('hide');
+    }
+
+    // Rede de segurança: força o fechamento após 600ms se ainda estiver visível
+    setTimeout(function () {
+        if ($m.is(':visible')) {
+            $m.removeClass('in show').css('display', 'none').attr('aria-hidden', 'true');
+            $('body').removeClass('modal-open').css('padding-right', '');
+            $('.modal-backdrop').remove();
+        }
+    }, 600);
+}
+
 function tarefa() {
     $.ajax({
         type: "POST",
@@ -13,7 +50,7 @@ function tarefa() {
                 $thisButton.button('reset');
             }
 
-            $('#exampleModal1').modal('hide');
+            fecharLoadingModal();
 
             $.toast({
                 text: "Nenhum registro foi encontrado",
@@ -23,8 +60,7 @@ function tarefa() {
             });
         },
         success: function (data) {
-			$('#exampleModal1').modal('hide');
-
+            fecharLoadingModal();
 
             if (data.totalCount === 0) {
                 $.toast({
@@ -207,10 +243,6 @@ function tarefa() {
 
             $('#btnMaisTarefa').button('reset');
             $("#aguarde").hide();
-			
-			setTimeout(function (e) {
-				$('#exampleModal1').modal('hide');
-			}, 500);
 
             if ($('#myModal:visible').length === 0) {
                 $('#myModal').modal('show');
