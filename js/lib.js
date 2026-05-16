@@ -13,6 +13,7 @@ var vAno = '2026';
 var vNomeAluno = undefined;
 var vUniqueID = undefined;
 var vSenhaNet = undefined;
+var id = undefined;
 
 $(document).ready(function () {
     $isiPhone = / iphone/i.test(navigator.userAgent.toLowerCase());
@@ -34,7 +35,9 @@ $(document).ready(function () {
     });
 
     vEscola = $("#codEscola").val();    
-    $('#nroserie').text($("#uniqueID").val());
+	vUniqueID = $("#uniqueID").val();
+    $('#nroserie').text(vUniqueID);
+	id = $.trim($("#Id").val());
     vs = $('#vs').val();
     $('.navbar-left').hide();
     if ($("#codEscola").val() === "80") {
@@ -381,11 +384,11 @@ $(document).ready(function () {
   
     $(".lb").addClass('lb label pull bg-' + $("#cor").val() + '-gradient');
 
-    $("#idRegistro").attr('href', './registro.php?codEscola='+vEscola);
+    $("#idRegistro").attr('href', './registro.php?codEscola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs);
 
     $(".menu").off('click');
 
-    var _url = './Default.aspx?codEscola=' + $("#codEscola").val() + '&uniqueID=' + $("#uniqueID").val() + '&Id=' + $("#Id").val();
+//    var _url = './Default.aspx?codEscola=' + $("#codEscola").val() + '&uniqueID=' + $("#uniqueID").val() + '&Id=' + $("#Id").val();
 
     //$('body').append('<form id="atualiza" action="/"></form>');
 
@@ -470,7 +473,7 @@ $(document).ready(function () {
             },
         beforeSend: aguarda2,
         error: function (request, status, error) {
-            window.location.href = './registro.php?codEscola='+vEscola;
+            window.location.href = './registro.php?codEscola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs;
             $('#exampleModal2').modal('hide');
         }
     });
