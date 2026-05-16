@@ -1,34 +1,29 @@
+/* tarefa.js — versão 20260516b
+   Marcador para confirmar no DevTools/Network qual versão está carregando.
+   Procure no Console por: console "tarefa.js v20260516b carregado". */
+console.log('tarefa.js v20260516b carregado');
+
 var $pagina = 1;
 var $thisButton = undefined;
 
 /**
- * Fecha o exampleModal1 de forma robusta, mesmo durante a animação de abertura.
- *
- * Problema: se chamarmos $('#exampleModal1').modal('hide') durante a transição
- * de 'show' (que dura ~300ms no Bootstrap), o modal entra em estado inconsistente
- * e fica visível na tela. Esta função:
- *   1. Se o modal ainda não terminou de abrir, espera o evento 'shown.bs.modal'
- *      e só então fecha.
- *   2. Se já está totalmente aberto, fecha imediatamente.
- *   3. Como rede de segurança, força o fechamento via remoção de classes/backdrop
- *      caso o Bootstrap não responda.
+ * Fecha o exampleModal1 mesmo em race condition.
+ * Bootstrap ignora .modal('hide') chamado durante a animação de show — esta
+ * função aguarda o evento 'shown.bs.modal' se necessário, e como rede de
+ * segurança força o fechamento após 600ms removendo classes e backdrop.
  */
 function fecharLoadingModal() {
     var $m = $('#exampleModal1');
     if ($m.length === 0) return;
 
-    // Se nem está aberto, não há nada a fazer
+    // Se ainda não terminou de abrir, registra um listener para fechar depois
     if (!$m.hasClass('in') && !$m.hasClass('show')) {
-        // Mas pode estar em meio à animação de show — registra para fechar depois
-        $m.one('shown.bs.modal', function () {
-            $m.modal('hide');
-        });
-        $m.modal('hide'); // tenta também imediatamente
-    } else {
-        $m.modal('hide');
+        $m.one('shown.bs.modal', function () { $m.modal('hide'); });
     }
+    // E tenta fechar imediatamente também
+    $m.modal('hide');
 
-    // Rede de segurança: força o fechamento após 600ms se ainda estiver visível
+    // Rede de segurança: força fechamento após 600ms se o Bootstrap não respondeu
     setTimeout(function () {
         if ($m.is(':visible')) {
             $m.removeClass('in show').css('display', 'none').attr('aria-hidden', 'true');
