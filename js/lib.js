@@ -20,6 +20,22 @@ $(document).ready(function () {
     // O splash em #preloadSplash continua visível por baixo, evitando qualquer flash do conteúdo.
     $('#exampleModal2').modal({ backdrop: 'static', keyboard: false, show: true });
 
+    // Garante que o app sempre será revelado, em qualquer cenário.
+    // Idempotente — pode ser chamado várias vezes sem efeito colateral.
+    var appRevealed = false;
+    window.revealApp = function () {
+        if (appRevealed) return;
+        appRevealed = true;
+        $('body').addClass('app-ready');
+        $('#exampleModal2').modal('hide');
+        // Remove backdrops órfãos que o Bootstrap pode deixar
+        setTimeout(function () { $('.modal-backdrop').remove(); }, 350);
+    };
+
+    // Rede de segurança: se o AJAX inicial demorar mais que 15s, libera mesmo assim
+    // para o usuário ver o app (ou ao menos a tela vazia) em vez de splash eterno.
+    setTimeout(function () { window.revealApp(); }, 15000);
+
     $isiPhone = / iphone/i.test(navigator.userAgent.toLowerCase());
 
     $(window).scroll(function () {
@@ -410,6 +426,7 @@ $(document).ready(function () {
         data: $data,
         success:
             function (data) {
+                try {
                 $dados = data;
                 $alunos = $dados.alunos;
                 $local = $dados.local;
@@ -474,17 +491,27 @@ $(document).ready(function () {
                 });
 
                 // Dados já carregados e DOM populado: revela o app e fecha o loading
-                $('body').addClass('app-ready');
-                $('#exampleModal2').modal('hide');
+                window.revealApp();
 
                 //$('#atualiza').submit();
+                } catch (e) {
+                    // Se houve qualquer exceção processando os dados, ainda assim revela o app
+                    if (window.console && console.error) {
+                        console.error('Erro ao processar dados do appaluno:', e);
+                    }
+                    window.revealApp();
+                }
             },
         beforeSend: aguarda2,
         error: function (request, status, error) {
             // Esconde o splash inicial enquanto navega, evita ficar com tela em branco
-            $('body').addClass('app-ready');
-            $('#exampleModal2').modal('hide');
+            window.revealApp();
             window.location.href = './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs;
+        },
+        // SEMPRE roda, mesmo se houver exceção dentro do success.
+        // Última rede de segurança contra splash eterno.
+        complete: function () {
+            window.revealApp();
         }
     });
 });
