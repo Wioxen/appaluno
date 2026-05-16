@@ -23,9 +23,8 @@ function tarefa() {
             });
         },
         success: function (data) {
-            $(".modal-backdrop").remove();
-            $(".modal-backdrop").hide();
-            $("#exampleModal1 > div > div > div.modal-header > button").trigger('click');
+			$('#exampleModal1').modal('hide');
+
 
             if (data.totalCount === 0) {
                 $.toast({
