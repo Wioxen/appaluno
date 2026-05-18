@@ -165,297 +165,142 @@ $(document).ready(function () {
 
     switch ($("#codEscola").val()) {
         case "8":
-            $("body").addClass('skin-blue');
-            $(".box-header").css('border-top-color', '#4589BA');
             $("#lbEscola").text('Colégio Ponto Alto');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "21":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('Colégio Sistema 2');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "23":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('Vitória Régia Centro Educacional');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $(".info-box-icon").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "11":
-            $("body").addClass('skin-red');
             $("#lbEscola").text('Colégio Gregor Mendel');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('red');
             break;
         case "13":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Marissol');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "14":
-            $("body").addClass('skin-purple');
             $("#lbEscola").text('Escola Tempo de Criança');
-            $(".boxInicio").css('background-color', '#6256A4');
-            $("#cor").val('purple');
             break;
         case "16":
-            $("body").addClass('skin-red');
             $("#lbEscola").text('Colégio Gregor Mendel');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('red');
             break;
         case "34":
-            $("body").addClass('skin-red');
             $("#lbEscola").text('Escola Patamares');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('red');
             break;
         case "61":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Nova Nossa Infância');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "69":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Sonho de Criança');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "80":
-            $("body").addClass('skin-green');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "86":
-            $("body").addClass('skin-red');
             $("#lbEscola").text('Villa Criar - Escola e Centro de Estudos');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('red');
             break;
         case "92":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Omega');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "93":
-            $("body").addClass('skin-purple');
             $("#lbEscola").text('Escola Recanto de Viver');
-            $(".boxInicio").css('background-color', '#6256A4');
-            $("#cor").val('purple');
             break;
         case "104":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('CERV');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "109":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('COOPEMA');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "112":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Gabriel Arcanjo');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "131":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Educcar');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "132":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Augusto Comte');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "143":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Guadalupe');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "148":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Gurilândia');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "152":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Brincando e Construindo');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "155":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Marcodes');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "157":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('Escola Traços e Letras');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "158":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Perspectiva');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "174":
-            $("body").addClass('skin-red');
             $("#lbEscola").text('Colégio Arte');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('red');
             break;
         case "177":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Medalha Milagrosa');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "179":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Master System');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "181":
-            $("body").addClass('skin-green');
-            $(".box-header").css('border-top-color', '#13A75A');
             $("#lbEscola").text('Escola Maria Bernarda');
-            $(".boxInicio").css('background-color', '#13A75A');
-            $("#cor").val('green');
             break;
         case "185":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Favo');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "191":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Instituto Nossa Senhora do Salette');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "198":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Casa Bambini');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "200":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Moderninha de Valéria');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "205":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Gira Girou');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "208":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Instituto Comenius');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "215":
-            $("body").addClass('skin-green');
             $("#lbEscola").text('Colégio Atenas');
-            $(".boxInicio").css('background-color', '#4BCA64');
-            $("#cor").val('blue');
             break;
         case "216":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Reino Encantado');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "218":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Colégio Crescimento');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "223":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Pet Parque Resort');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "229":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Centro Educacional Potência');
-            $(".boxInicio").css('background-color', '#4589BA');
-            $("#cor").val('blue');
             break;
         case "243":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('Escola Ponto de Partida');
-            $(".boxInicio").css('background-color', '#3A417B');
-            $("#cor").val('blue');
             break;
         case "145":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('ENSC');
-            $(".boxInicio").css('background-color', '#3A417B');
-            $("#cor").val('blue');
             break;
         case "241":
             $('#lbEscola').removeClass('hidden');
-            $("body").addClass('skin-green');
             $("#lbEscola").text('Escola YBÁ');
-            $(".boxInicio").css('background-color', '#D94F3E');
-            $("#cor").val('green');
             break;
         case "247":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('ENSC');
-            $(".boxInicio").css('background-color', '#3A417B');
-            $("#cor").val('blue');
             break;
         case "149":
-            $("body").addClass('skin-blue');
             $("#lbEscola").text('EBB');
-            $(".boxInicio").css('background-color', '#3A417B');
-            $("#cor").val('blue');
             break;
         default:
-            $("body").addClass('skin-green');
-            $("#cor").val('green');
-            $(".boxInicio").css('background-color', '#D94F3E');
     }
-
-    console.log($(".navbar").css('background-color'));
-
-    $('#nm-title').css('background-color', $(".navbar").css('background-color'));
-//    $('#nav').css('background-color', $(".navbar").css('background-color'));
-    $('#btn-not').css('background-color', 'white');
-    //$('#btn-not').css('color', '#fff');
-  
-    $(".lb").addClass('lb label pull bg-' + $("#cor").val() + '-gradient');
 
     $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs);
 

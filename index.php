@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260516n';
+$ASSET_VERSION = '20260516q';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -643,6 +643,204 @@ $ASSET_VERSION = '20260516n';
            similar continue funcionando sem erros. */
         .main-header .navbar-custom-menu li.dropdown.user.user-menu {
             display: none !important;
+        }
+
+        /* ===== Tema teal aplicado ao header principal e ao nm-title =====
+           Mesmo gradiente + bolhas decorativas do header da sidebar.
+           Sobrescreve o skin-green do AdminLTE. */
+
+        /* Cabeçalho principal */
+        .main-header .navbar,
+        .main-header .navbar-static-top {
+            position: relative !important;
+            background: linear-gradient(135deg, #28a7a8 0%, #1f8a8b 50%, #166e6f 100%) !important;
+            border-color: transparent !important;
+            color: #ffffff !important;
+            overflow: hidden;
+        }
+
+        /* Bolhas de luz decorativas no main-header (mesma estética do header da sidebar) */
+        .main-header .navbar::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -30px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .main-header .navbar::after {
+            content: "";
+            position: absolute;
+            bottom: -60px;
+            left: -20px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Garante que os botões e conteúdos fiquem acima das bolhas */
+        .main-header .navbar > .container,
+        .main-header .navbar-left,
+        .main-header .navbar-custom-menu {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* nm-title — barra com o nome do aluno em destaque, mesmo tema */
+        #nm-title {
+            position: relative;
+            background: linear-gradient(135deg, #28a7a8 0%, #1f8a8b 50%, #166e6f 100%) !important;
+            color: #ffffff !important;
+            border: 0 !important;
+            padding: 14px 18px 12px !important;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(22, 110, 111, 0.18);
+        }
+        #nm-title::before {
+            content: "";
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 70%);
+            pointer-events: none;
+        }
+        #nm-title::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -15px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.10), transparent 70%);
+            pointer-events: none;
+        }
+        #nm-title > .text-center {
+            position: relative;
+            z-index: 1;
+        }
+        #nm-title .nomeAluno {
+            color: #ffffff !important;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+        }
+        /* Tira a linha <hr> herdada para a faixa ficar limpa */
+        #nm-title hr {
+            display: none !important;
+        }
+
+        /* ===== Headers dos modais (myModal, myModal2, myModal3, myModal4) =====
+           Mesmo gradiente teal do main-header e da sidebar.
+           Não afeta .splash-modal (fundo branco proposital) nem modais Bootstrap
+           internos que não tenham essa estrutura customizada. */
+        #myModal  .modal-header,
+        #myModal2 .modal-header,
+        #myModal3 .modal-header,
+        #myModal4 .modal-header {
+            position: relative;
+            background: linear-gradient(135deg, #28a7a8 0%, #1f8a8b 50%, #166e6f 100%) !important;
+            color: #ffffff !important;
+            border-bottom: 0 !important;
+            padding: 16px 18px !important;
+            overflow: hidden;
+            border-radius: 0 !important;
+        }
+
+        /* Bolhas decorativas — mesma estética do header da sidebar */
+        #myModal  .modal-header::before,
+        #myModal2 .modal-header::before,
+        #myModal3 .modal-header::before,
+        #myModal4 .modal-header::before {
+            content: "";
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        #myModal  .modal-header::after,
+        #myModal2 .modal-header::after,
+        #myModal3 .modal-header::after,
+        #myModal4 .modal-header::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            left: -15px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.10), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Conteúdo (imagem, título, botão close) acima das bolhas */
+        #myModal  .modal-header > *,
+        #myModal2 .modal-header > *,
+        #myModal3 .modal-header > *,
+        #myModal4 .modal-header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Título do modal em branco */
+        #myModal  .modal-header h4,
+        #myModal2 .modal-header h4,
+        #myModal3 .modal-header h4,
+        #myModal4 .modal-header h4 {
+            color: #ffffff !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+            margin: 6px 0 0 !important;
+        }
+
+        /* Imagem (foto do aluno) com borda branca destacada sobre o gradiente */
+        #myModal  .modal-header img.img-circle,
+        #myModal2 .modal-header img.img-circle,
+        #myModal3 .modal-header img.img-circle,
+        #myModal4 .modal-header img.img-circle,
+        #myModal  .modal-header img.modal-foto,
+        #myModal2 .modal-header img.modal-foto,
+        #myModal3 .modal-header img.modal-foto,
+        #myModal4 .modal-header img.modal-foto {
+            border: 2px solid rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Ícone "fechar" (imagem PNG close.png) com filtro para ficar branco */
+        #myModal  .modal-header img.close,
+        #myModal2 .modal-header img.close,
+        #myModal3 .modal-header img.close,
+        #myModal4 .modal-header img.close {
+            filter: brightness(0) invert(1);
+            opacity: 0.92;
+            transition: opacity 0.15s;
+        }
+        #myModal  .modal-header img.close:hover,
+        #myModal2 .modal-header img.close:hover,
+        #myModal3 .modal-header img.close:hover,
+        #myModal4 .modal-header img.close:hover {
+            opacity: 1;
+        }
+
+        /* Anula qualquer classe bg-* que o JS antigo pudesse ter aplicado */
+        .modal-header2[class*="bg-"] {
+            background: linear-gradient(135deg, #28a7a8 0%, #1f8a8b 50%, #166e6f 100%) !important;
         }
 
         /* ===== Sidebar ===== */
@@ -1493,7 +1691,7 @@ $ASSET_VERSION = '20260516n';
     <!-- ===== Sidebar de Alunos: open/close + render ===== -->
     <script>
     (function () {
-        console.log('[sidebar-alunos] script carregado — v20260516n');
+        console.log('[sidebar-alunos] script carregado — v20260516o');
 
         var $backdrop      = $('#alunosBackdrop');
         var $sidebar       = $('#alunosSidebar');
