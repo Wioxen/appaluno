@@ -306,6 +306,7 @@ $(document).ready(function () {
         case "183":
             $("#lbEscola").text('Cooeps Arraial');
             break;
+			
         default:
     }
 
