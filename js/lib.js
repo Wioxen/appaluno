@@ -91,23 +91,76 @@ $(document).ready(function () {
 
     $('#cliqueNroSerie').off('click').on('click', function (e) {
         e.preventDefault();
-        setTimeout(function () {
-            //$('#btnAlunos').trigger('click');
 
-            var sampleTextarea = document.createElement("textarea");
-            document.body.appendChild(sampleTextarea);
-            sampleTextarea.value = $('#nroserie').text();
-            sampleTextarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(sampleTextarea);
+        var $btn = $(this);
+        var texto = $('#nroserie').text();
 
+        function feedbackSucesso() {
+            // Feedback visual rápido no próprio botão
+            $btn.addClass('is-copied');
+            setTimeout(function () { $btn.removeClass('is-copied'); }, 1500);
+
+            // Toast
             $.toast({
-                text: "Texto copiado com sucesso",
+                text: "Número de série copiado!",
+                hideAfter: 2500,
+                position: 'bottom-center',
+                showHideTransition: 'fade',
+                bgColor: '#28a7a8',
+                textColor: '#ffffff'
+            });
+        }
+
+        function feedbackErro() {
+            $.toast({
+                text: "Não foi possível copiar. Tente novamente.",
                 hideAfter: 3000,
                 position: 'bottom-center',
-                showHideTransition: 'fade'
+                showHideTransition: 'fade',
+                bgColor: '#c0392b',
+                textColor: '#ffffff'
             });
-        }, 1);
+        }
+
+        // Estratégia 1: Clipboard API moderna (HTTPS, navegadores recentes)
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(texto)
+                .then(feedbackSucesso)
+                .catch(function () {
+                    // Estratégia 2: fallback para execCommand
+                    try {
+                        var sampleTextarea = document.createElement("textarea");
+                        sampleTextarea.value = texto;
+                        sampleTextarea.setAttribute('readonly', '');
+                        sampleTextarea.style.position = 'fixed';
+                        sampleTextarea.style.left = '-9999px';
+                        document.body.appendChild(sampleTextarea);
+                        sampleTextarea.select();
+                        var ok = document.execCommand("copy");
+                        document.body.removeChild(sampleTextarea);
+                        if (ok) { feedbackSucesso(); } else { feedbackErro(); }
+                    } catch (err) {
+                        feedbackErro();
+                    }
+                });
+            return;
+        }
+
+        // Estratégia 2 (direto, sem Clipboard API disponível)
+        try {
+            var sampleTextarea = document.createElement("textarea");
+            sampleTextarea.value = texto;
+            sampleTextarea.setAttribute('readonly', '');
+            sampleTextarea.style.position = 'fixed';
+            sampleTextarea.style.left = '-9999px';
+            document.body.appendChild(sampleTextarea);
+            sampleTextarea.select();
+            var ok = document.execCommand("copy");
+            document.body.removeChild(sampleTextarea);
+            if (ok) { feedbackSucesso(); } else { feedbackErro(); }
+        } catch (err) {
+            feedbackErro();
+        }
     });
 
     switch ($("#codEscola").val()) {
@@ -489,6 +542,12 @@ $(document).ready(function () {
                         $("#btnAlunos").off('click').on('click', alunosClick);
                     }
                 });
+
+                // Expõe lista para a sidebar e renderiza
+                window.$alunos = $alunos;
+                if (typeof window.renderAlunosSidebar === 'function') {
+                    try { window.renderAlunosSidebar($alunos); } catch (e2) {}
+                }
 
                 // Dados já carregados e DOM populado: revela o app e fecha o loading
                 window.revealApp();
