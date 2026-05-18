@@ -880,9 +880,9 @@ function carregaMenu() {
         $(".contato").remove();
     }
 
-    /*if (($dados.count_veja_mais === 0) || ($.inArray($(".fotoAtual").attr("data-escola"), ["214"]) !== -1)) {
+    if (($dados.count_veja_mais === 0) || ($.inArray($(".fotoAtual").attr("data-escola"), ["214"]) !== -1)) {
         $(".vejamais").remove();
-    }*/
+    }
 	
 
     $(".atividade").off('click').on('click', cliqueAtividade);
@@ -1598,22 +1598,6 @@ function MenuYba(){
       var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
       
       if ($.inArray(vCurso, ["G1","1G","G2","2G","G3","3G"]) !== -1){
-         if (vUniqueID === 'C94F17E2-4F63-456C-9A69-5E32DF1B6627'){
-            alert('C94F17E2-4F63-456C-9A69-5E32DF1B6627');
-         $('#content').html(`<div class="box-body" style="padding-bottom: 20px;">
-                              <div class="box box-solid box-default">
-                                 <div class="box-body no-padding">
-                                    <ul id="id01" class="nav nav-pills nav-stacked abc">
-                                       <li><a href="https://digite1.websiteseguro.com/seinet/241-YBA/calendario/0-${vAno}.pdf" target="_blank"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
-                                       <li><a href="https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF" target="_blank"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
-                                       <li><a href="#" class="yba-compartilha-1"><i class="fa fa-handshake-o"></i> YBÁ COMPARTILHA </a></li>
-                                       <li><a href="#" class="boleto"><i class="fa fa-barcode"></i> BOLETOS </a></li>
-                                       <li><a href="#" class="notificacao"><i class="fa fa-bell"></i> COMUNICADOS/AVISOS </a></li>
-                                    </ul>
-                                 </div>
-                              </div>
-                           </div>`);
-         } else {
          $('#content').html(`<div class="box-body" style="padding-bottom: 20px;">
                               <div class="box box-solid box-default">
                                  <div class="box-body no-padding">
@@ -1627,7 +1611,6 @@ function MenuYba(){
                                  </div>
                               </div>
                            </div>`);
-         }
       }
       
       if ($.inArray(vCurso, ["G4B","G4","4G","G5","5G"]) !== -1){
@@ -1696,12 +1679,15 @@ function MenuYba(){
                               </div>
                            </div>`);
       }
+	  
+//	  $('.abc').append(`<li><a href="#" class="vejamais"><i class="fa fa-eyes"></i> VEJA MAIS </a></li>`);
       
       $("#texto-notificacoes").text('Comunicados/Avisos');
       $(".notificacao").off('click').on('click', notificacaoClick);      
       $(".boleto").off('click').on('click', boletoClick);      
       $(".boletim").off('click').on('click', notaClick);
       $(".tarefa").off('click').on('click', tarefaClick);
+//      $(".vejamais").off('click').on('click', cliqueVeja);
       
       $('.yba-compartilha-1').click(function(){
          var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
