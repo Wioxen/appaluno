@@ -880,9 +880,9 @@ function carregaMenu() {
         $(".contato").remove();
     }
 
-    if (($dados.count_veja_mais === 0) || ($.inArray($(".fotoAtual").attr("data-escola"), ["214"]) !== -1)) {
+    /*if (($dados.count_veja_mais === 0) || ($.inArray($(".fotoAtual").attr("data-escola"), ["214"]) !== -1)) {
         $(".vejamais").remove();
-    }
+    }*/
 
     $(".atividade").off('click').on('click', cliqueAtividade);
     $(".agenda").off('click').on('click', cliqueAgenda);
