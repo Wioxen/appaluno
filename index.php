@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260516w';
+$ASSET_VERSION = '20260516x';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -809,16 +809,16 @@ $ASSET_VERSION = '20260516w';
         }
 
         .aluno-info-label {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 700;
-            letter-spacing: 0.6px;
+            letter-spacing: 0.4px;
             text-transform: uppercase;
             color: #6b6b6b;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .aluno-info-value {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             color: #1a1a1a;
             line-height: 1.25;
