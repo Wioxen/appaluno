@@ -1659,6 +1659,7 @@ function MenuYba(){
             case '3F1':
               _calendario = `https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/241-YBA/calendario/3-${vAno}.pdf`;
               break;
+			  
             default:
               _calendario = '#';
          }       
