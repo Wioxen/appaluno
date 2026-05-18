@@ -163,9 +163,7 @@ $(document).ready(function () {
         }
     });
 
-	$('#lbEscola').removeClass('hidden');
-    
-	switch ($("#codEscola").val()) {
+    switch ($("#codEscola").val()) {
         case "8":
             $("#lbEscola").text('Colégio Ponto Alto');
             break;
@@ -292,7 +290,8 @@ $(document).ready(function () {
             $("#lbEscola").text('ENSC');
             break;
         case "241":
-            $("#lbEscola").text('YBÁ');
+            $('#lbEscola').removeClass('hidden');
+            $("#lbEscola").text('Escola YBÁ');
             break;
         case "247":
             $("#lbEscola").text('ENSC');
@@ -300,13 +299,6 @@ $(document).ready(function () {
         case "149":
             $("#lbEscola").text('EBB');
             break;
-        case "133":
-            $("#lbEscola").text('Cooeps');
-            break;
-        case "183":
-            $("#lbEscola").text('Cooeps Arraial');
-            break;
-			
         default:
     }
 
@@ -337,64 +329,73 @@ $(document).ready(function () {
                 $alunos = $dados.alunos;
                 $local = $dados.local;
 
-                $.each($alunos, function (index, value) {
-                    if (index === 0) {
-                        if (($local !== undefined) && ($local !== null))
-                            $dados_local = $local[$local.findIndex(obj => obj.codigo === value.Codigo)];
+                // Função reutilizável: aplica os dados de um aluno (objeto da API)
+                // em toda a interface. Usada tanto no carregamento inicial (1º aluno)
+                // quanto quando o usuário troca de aluno via sidebar.
+                window.aplicarAluno = function (value) {
+                    if (!value) return;
 
-                        $('#lbcodigo').text('RM - ' + ('000000' + value.Codigo).slice(-6));
-                        //$(".nomeAluno").text(value.Descricao.split(' ')[0] + ' ' + value.Descricao.substr(value.Descricao.lastIndexOf(' ') + 1));
-                        $(".nomeAluno").text(value.Descricao);
-                        $(".saida").text(value.SaidaDoAluno);
-                        $(".fotoAtual").attr("src", value.Foto.replace('https://digite1.websiteseguro.com','http://digite.com.br'));
+                    var $dados_local_aluno = null;
+                    if (($local !== undefined) && ($local !== null)) {
+                        var idx = $local.findIndex(function (obj) { return obj.codigo === value.Codigo; });
+                        $dados_local_aluno = idx >= 0 ? $local[idx] : null;
+                    }
 
-                        if (($dados_local === undefined) || ($dados_local === null)) {
+                    $('#lbcodigo').text('RM - ' + ('000000' + value.Codigo).slice(-6));
+                    $(".nomeAluno").text(value.Descricao);
+                    $(".saida").text(value.SaidaDoAluno);
+                    $(".fotoAtual").attr("src", value.Foto.replace('https://digite1.websiteseguro.com','http://digite.com.br'));
+
+                    if (($dados_local_aluno === undefined) || ($dados_local_aluno === null)) {
+                        $(".nomeCurso").text(value.Curso.toUpperCase());
+                        $(".nometurma").text(value.Turma);
+                        $(".fotoAtual").attr("data-alunoCurso", value.alunoCurso);
+                    } else {
+                        if ($.inArray(vEscola, ['80']) !== -1) {
+                            $(".nomeCurso").text($dados_local_aluno.dcurso.toUpperCase());
+                            $(".nometurma").text($dados_local_aluno.dturma);
+                            $('#label-turma').text($dados_local_aluno.turma);
+                            $(".fotoAtual").attr("data-alunoCurso", $dados_local_aluno.cursoId);
+                            if ($dados_local_aluno.foto !== null)
+                                $(".fotoAtual").attr("src", "data:image/jpg;base64," + $dados_local_aluno.foto);
+                        } else {
                             $(".nomeCurso").text(value.Curso.toUpperCase());
                             $(".nometurma").text(value.Turma);
                             $(".fotoAtual").attr("data-alunoCurso", value.alunoCurso);
-                        } else {
-                           if ($.inArray(vEscola, ['80']) !== -1){
-                               $(".nomeCurso").text($dados_local.dcurso.toUpperCase());
-                               $(".nometurma").text($dados_local.dturma);
-                               $('#label-turma').text($dados_local.turma);
-                               $(".fotoAtual").attr("data-alunoCurso", $dados_local.cursoId);
-                               if ($dados_local.foto !== null)
-                                   $(".fotoAtual").attr("src", "data:image/jpg;base64," + $dados_local.foto);
-                           } else {
-                               $(".nomeCurso").text(value.Curso.toUpperCase());
-                               $(".nometurma").text(value.Turma);
-                               $(".fotoAtual").attr("data-alunoCurso", value.alunoCurso);
-                           }
                         }
-
-                        $(".nro").text(value.Nro);
-
-                        $(".fotoAtual").attr("alt", value.Descricao.substr(0, 28));
-
-                        $(".fotoAtual").attr("data-escola", value.Escola);
-                        $(".fotoAtual").attr("data-codigo", value.Codigo);
-                        $(".fotoAtual").attr("data-tipoacesso", value.TipoAcesso);
-                        $(".fotoAtual").attr("data-passnet", value.SenhaNet);
-                        $(".fotoAtual").attr("data-cursoturma", value.Curso + value.Turma.trim());
-                        $(".fotoAtual").attr("data-codcurso", value.CodCurso);
-                        $(".fotoAtual").attr("data-curso", value.Curso.replace(' ', '').replace('°', '').trim());
-                        $(".fotoAtual").attr("data-turma2", $.trim(value.CodCurso) +'-'+ $.trim(value.Turma));
-                        $(".fotoAtual").attr("data-alunoTurma", value.alunoTurma);
-                        $(".fotoAtual").attr("data-ciclo", value.Ciclo);
-                        
-                        vRM = value.Codigo;
-                        vTipoAcesso = value.TipoAcesso;
-                        vCiclo = value.Ciclo;
-                        vCurso = value.CodCurso;
-                        vTurma = value.Turma.trim();
-                        vNomeAluno = $.trim($(".nomeAluno").text());
-                        vSenhaNet = value.SenhaNet;
-
-                        $(".home").off('click').on('click', homeClick).trigger('click');
-
-                        $("#btnAlunos").off('click').on('click', alunosClick);
                     }
-                });
+
+                    $(".nro").text(value.Nro);
+
+                    $(".fotoAtual").attr("alt", value.Descricao.substr(0, 28));
+                    $(".fotoAtual").attr("data-escola", value.Escola);
+                    $(".fotoAtual").attr("data-codigo", value.Codigo);
+                    $(".fotoAtual").attr("data-tipoacesso", value.TipoAcesso);
+                    $(".fotoAtual").attr("data-passnet", value.SenhaNet);
+                    $(".fotoAtual").attr("data-cursoturma", value.Curso + value.Turma.trim());
+                    $(".fotoAtual").attr("data-codcurso", value.CodCurso);
+                    $(".fotoAtual").attr("data-curso", value.Curso.replace(' ', '').replace('°', '').trim());
+                    $(".fotoAtual").attr("data-turma2", $.trim(value.CodCurso) + '-' + $.trim(value.Turma));
+                    $(".fotoAtual").attr("data-alunoTurma", value.alunoTurma);
+                    $(".fotoAtual").attr("data-ciclo", value.Ciclo);
+
+                    vRM = value.Codigo;
+                    vTipoAcesso = value.TipoAcesso;
+                    vCiclo = value.Ciclo;
+                    vCurso = value.CodCurso;
+                    vTurma = value.Turma.trim();
+                    vNomeAluno = $.trim($(".nomeAluno").text());
+                    vSenhaNet = value.SenhaNet;
+
+                    // Reaplica os handlers e dispara o home para reinicializar a view
+                    $(".home").off('click').on('click', homeClick).trigger('click');
+                    $("#btnAlunos").off('click').on('click', alunosClick);
+                };
+
+                // Carrega o primeiro aluno na interface
+                if ($alunos && $alunos.length > 0) {
+                    window.aplicarAluno($alunos[0]);
+                }
 
                 // Expõe lista para a sidebar e renderiza
                 window.$alunos = $alunos;

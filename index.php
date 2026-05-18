@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260516x';
+$ASSET_VERSION = '20260516z';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -1930,35 +1930,48 @@ $ASSET_VERSION = '20260516x';
             if (e.key === 'Escape' && $sidebar.hasClass('is-open')) closeSidebar();
         });
 
-        // Clique num aluno da lista — chama o trocaAlunoClick definido em outro JS
-        // (provavelmente funcoes.js). O elemento clicado precisa expor os atributos
-        // que o trocaAlunoClick lê (.fotoAtual / data-codigo etc.).
+        // Clique num aluno da lista — chama aplicarAluno (definida no lib.js)
+        // que aplica os dados do aluno selecionado em toda a interface.
         $(document).on('click', '.aluno-item', function (e) {
             var $item  = $(this);
             var codigo = $item.data('codigo');
+            var idx    = parseInt($item.data('index'), 10);
             closeSidebar();
 
-            // trocaAlunoClick é geralmente um handler estilo jQuery que espera
-            // ser chamado no contexto do elemento clicado (this = elemento).
-            if (typeof window.trocaAlunoClick === 'function') {
-                try {
-                    window.trocaAlunoClick.call($item[0], e);
-                } catch (err) {
-                    console.error('[sidebar-alunos] erro no trocaAlunoClick:', err);
+            // Busca o objeto do aluno: primeiro pelo índice, depois pelo código.
+            var aluno = null;
+            if (window.$alunos && window.$alunos.length) {
+                if (!isNaN(idx) && window.$alunos[idx]) {
+                    aluno = window.$alunos[idx];
+                } else {
+                    for (var i = 0; i < window.$alunos.length; i++) {
+                        if (String(window.$alunos[i].Codigo) === String(codigo)) {
+                            aluno = window.$alunos[i];
+                            break;
+                        }
+                    }
                 }
+            }
+
+            if (!aluno) {
+                console.warn('[sidebar-alunos] aluno não encontrado em window.$alunos (codigo=' + codigo + ')');
                 return;
             }
 
-            // Fallback 1: se trocaAlunoClick não estiver disponível, tenta o
-            // item correspondente no dropdown legado (lib.js popula #dvAlunos
-            // com elementos data-codigo que respondem a click).
-            var $legacy = $('#dvAlunos').find('[data-codigo="' + codigo + '"]').first();
-            if ($legacy.length) {
-                $legacy.trigger('click');
+            if (typeof window.aplicarAluno !== 'function') {
+                console.warn('[sidebar-alunos] window.aplicarAluno não está definida ainda — verifique se lib.js v20260516y+ foi carregado');
                 return;
             }
 
-            console.warn('[sidebar-alunos] nenhum handler de troca de aluno encontrado');
+            try {
+                window.aplicarAluno(aluno);
+
+                // Marca o item ativo na lista
+                $('.aluno-item').removeClass('is-active');
+                $item.addClass('is-active');
+            } catch (err) {
+                console.error('[sidebar-alunos] erro em aplicarAluno:', err);
+            }
         });
     })();
     </script>
