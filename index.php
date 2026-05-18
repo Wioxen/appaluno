@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517c';
+$ASSET_VERSION = '20260517e';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -1852,7 +1852,9 @@ $ASSET_VERSION = '20260517c';
                 var turma     = a.Turma ? String(a.Turma).trim() : '';
                 var turmaSafe = escapeHtml(turma);
                 var codCurso  = escapeHtml(a.CodCurso || '');
-                var foto      = (a.Foto || '').replace('https://digite1.websiteseguro.com', 'http://digite.com.br');
+                var foto      = (typeof window.normalizarUrlFoto === 'function')
+                                  ? window.normalizarUrlFoto(a.Foto || '')
+                                  : (a.Foto || '').replace(/^http:\/\//i, 'https://');
                 var fotoSafe  = escapeHtml(foto);
                 var senhaNet  = escapeHtml(a.SenhaNet || '');
                 var tipoAcesso= escapeHtml(a.TipoAcesso || '');

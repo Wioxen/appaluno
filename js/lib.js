@@ -16,6 +16,24 @@ var vUniqueID = undefined;
 var vSenhaNet = undefined;
 var id = undefined;
 
+/**
+ * Normaliza a URL da foto do aluno.
+ * O servidor HTTPS é digite1.websiteseguro.com (funciona em celulares).
+ * O digite.com.br é HTTP e não funciona em Android/iOS por mixed content.
+ */
+function normalizarUrlFoto(url) {
+    if (!url) return '';
+    // Converte qualquer http://digite.com.br -> https://digite1.websiteseguro.com
+    var u = url.replace(/^https?:\/\/digite\.com\.br/i, 'https://digite1.websiteseguro.com');
+    // Garante HTTPS no domínio digite1 caso venha como http
+    u = u.replace(/^http:\/\/digite1\.websiteseguro\.com/i, 'https://digite1.websiteseguro.com');
+    // Fallback: se a página é HTTPS e a URL ainda é HTTP, força HTTPS
+    if (window.location.protocol === 'https:' && /^http:\/\//i.test(u)) {
+        u = u.replace(/^http:\/\//i, 'https://');
+    }
+    return u;
+}
+
 $(document).ready(function () {
     // Abre o modal de loading IMEDIATAMENTE, antes de qualquer outra inicialização.
     // O splash em #preloadSplash continua visível por baixo, evitando qualquer flash do conteúdo.
@@ -352,7 +370,7 @@ $(document).ready(function () {
                     $('#lbcodigo').text('RM - ' + ('000000' + value.Codigo).slice(-6));
                     $(".nomeAluno").text(value.Descricao);
                     $(".saida").text(value.SaidaDoAluno);
-                    $(".fotoAtual").attr("src", value.Foto.replace('https://digite1.websiteseguro.com','http://digite.com.br'));
+                    $(".fotoAtual").attr("src", normalizarUrlFoto(value.Foto));
 
                     if (($dados_local === undefined) || ($dados_local === null)) {
                         $(".nomeCurso").text(value.Curso.toUpperCase());
