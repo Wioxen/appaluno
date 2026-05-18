@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260516q';
+$ASSET_VERSION = '20260516u';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -691,6 +691,45 @@ $ASSET_VERSION = '20260516q';
         .main-header .navbar-custom-menu {
             position: relative;
             z-index: 1;
+        }
+
+        /* Container da navbar: vira flex para centralizar os filhos verticalmente
+           usando a altura real do container, qualquer que seja. */
+        .main-header .navbar > .container {
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        /* Mantém o menu da direita (com o idRegistro) realmente à direita
+           depois do .container ter virado flex (o float: right deixa de funcionar). */
+        .main-header .navbar-custom-menu {
+            margin-left: auto !important;
+            float: none !important;
+        }
+
+        /* lbEscola: centralizado verticalmente acompanhando a altura real do .container pai */
+        .main-header #lbEscola {
+            display: inline-flex !important;
+            align-items: center !important;
+            align-self: center !important;
+            height: auto !important;
+            line-height: 1 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            text-decoration: none !important;
+        }
+        .main-header #lbEscola:hover,
+        .main-header #lbEscola:focus {
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+        /* Mantém o lbEscola escondido enquanto tem .hidden — o JS remove a classe quando popula o texto */
+        .main-header #lbEscola.hidden {
+            display: none !important;
         }
 
         /* nm-title — barra com o nome do aluno em destaque, mesmo tema */

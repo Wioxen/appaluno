@@ -163,7 +163,9 @@ $(document).ready(function () {
         }
     });
 
-    switch ($("#codEscola").val()) {
+	$('#lbEscola').removeClass('hidden');
+    
+	switch ($("#codEscola").val()) {
         case "8":
             $("#lbEscola").text('Colégio Ponto Alto');
             break;
@@ -290,14 +292,19 @@ $(document).ready(function () {
             $("#lbEscola").text('ENSC');
             break;
         case "241":
-            $('#lbEscola').removeClass('hidden');
-            $("#lbEscola").text('Escola YBÁ');
+            $("#lbEscola").text('YBÁ');
             break;
         case "247":
             $("#lbEscola").text('ENSC');
             break;
         case "149":
             $("#lbEscola").text('EBB');
+            break;
+        case "133":
+            $("#lbEscola").text('Cooeps');
+            break;
+        case "183":
+            $("#lbEscola").text('Cooeps Arraial');
             break;
         default:
     }
