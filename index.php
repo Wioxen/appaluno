@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260516u';
+$ASSET_VERSION = '20260516w';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -780,6 +780,58 @@ $ASSET_VERSION = '20260516u';
             display: none !important;
         }
 
+        /* Box-footer: remove padding vertical para a lista de info ficar
+           encostada nas bordas superior e inferior do bloco. */
+        .box-footer {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* ===== Lista de informações do aluno (Curso / Turma / Opção de saída) =====
+           Layout em 3 linhas x 2 colunas: label à esquerda, valor à direita. */
+        .aluno-info-list {
+            list-style: none;
+            margin: 0;
+            padding: 4px 0;
+        }
+
+        .aluno-info-row {
+            display: grid;
+            grid-template-columns: minmax(120px, 38%) 1fr;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            min-height: 44px;
+        }
+        .aluno-info-row:last-child {
+            border-bottom: 0;
+        }
+
+        .aluno-info-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: #6b6b6b;
+            line-height: 1.2;
+        }
+
+        .aluno-info-value {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.25;
+            text-align: right;
+            word-break: break-word;
+        }
+        /* Quando o valor está vazio, mostra um traço discreto */
+        .aluno-info-value:empty::before {
+            content: "—";
+            color: #c0c0c0;
+            font-weight: 500;
+        }
+
         /* ===== Headers dos modais (myModal, myModal2, myModal3, myModal4) =====
            Mesmo gradiente teal do main-header e da sidebar.
            Não afeta .splash-modal (fundo branco proposital) nem modais Bootstrap
@@ -1423,22 +1475,20 @@ $ASSET_VERSION = '20260516u';
                         </div>
                     </div>
                     <div class="box-footer">
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div id="dvCurso" class="col-sm-5 col-xs-4 text-center">
-                                    <p><small class="label label-default">CURSO</small></p>
-                                    <p><small class="nomeCurso"></small></p>
-                                </div>
-                                <div id="dvTurma" class="col-sm-2 col-xs-4 text-center">
-                                    <p><small id="label-turma" class="label label-default">TURMA</small></p>
-                                    <p><small class="nometurma"></small></p>
-                                </div>
-                                <div id="opSaida" class="col-sm-5 col-xs-4 text-center">
-                                    <p><small class="label label-default">OPÇÃO DE SAÍDA</small></p>
-                                    <p><small class="saida"></small></p>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="aluno-info-list">
+                            <li id="dvCurso" class="aluno-info-row">
+                                <span class="aluno-info-label">CURSO</span>
+                                <span class="aluno-info-value nomeCurso"></span>
+                            </li>
+                            <li id="dvTurma" class="aluno-info-row">
+                                <span id="label-turma" class="aluno-info-label">TURMA</span>
+                                <span class="aluno-info-value nometurma"></span>
+                            </li>
+                            <li id="opSaida" class="aluno-info-row">
+                                <span class="aluno-info-label">OPÇÃO DE SAÍDA</span>
+                                <span class="aluno-info-value saida"></span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
