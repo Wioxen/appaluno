@@ -2,6 +2,7 @@ var vs = "";
 var $dados = {};
 var $alunos = [];
 var $local = [];
+var $dados_local = null;
 var $isiPhone = false;
 var vEscola = undefined;
 var vRM = undefined;
@@ -335,10 +336,12 @@ $(document).ready(function () {
                 window.aplicarAluno = function (value) {
                     if (!value) return;
 
-                    var $dados_local_aluno = null;
+                    // Atribui à variável global $dados_local — outros arquivos
+                    // (eventos.js, homeClick etc.) leem essa variável.
+                    $dados_local = null;
                     if (($local !== undefined) && ($local !== null)) {
-                        var idx = $local.findIndex(function (obj) { return obj.codigo === value.Codigo; });
-                        $dados_local_aluno = idx >= 0 ? $local[idx] : null;
+                        var _idx = $local.findIndex(function (obj) { return obj.codigo === value.Codigo; });
+                        $dados_local = _idx >= 0 ? $local[_idx] : null;
                     }
 
                     $('#lbcodigo').text('RM - ' + ('000000' + value.Codigo).slice(-6));
@@ -346,18 +349,18 @@ $(document).ready(function () {
                     $(".saida").text(value.SaidaDoAluno);
                     $(".fotoAtual").attr("src", value.Foto.replace('https://digite1.websiteseguro.com','http://digite.com.br'));
 
-                    if (($dados_local_aluno === undefined) || ($dados_local_aluno === null)) {
+                    if (($dados_local === undefined) || ($dados_local === null)) {
                         $(".nomeCurso").text(value.Curso.toUpperCase());
                         $(".nometurma").text(value.Turma);
                         $(".fotoAtual").attr("data-alunoCurso", value.alunoCurso);
                     } else {
                         if ($.inArray(vEscola, ['80']) !== -1) {
-                            $(".nomeCurso").text($dados_local_aluno.dcurso.toUpperCase());
-                            $(".nometurma").text($dados_local_aluno.dturma);
-                            $('#label-turma').text($dados_local_aluno.turma);
-                            $(".fotoAtual").attr("data-alunoCurso", $dados_local_aluno.cursoId);
-                            if ($dados_local_aluno.foto !== null)
-                                $(".fotoAtual").attr("src", "data:image/jpg;base64," + $dados_local_aluno.foto);
+                            $(".nomeCurso").text($dados_local.dcurso.toUpperCase());
+                            $(".nometurma").text($dados_local.dturma);
+                            $('#label-turma').text($dados_local.turma);
+                            $(".fotoAtual").attr("data-alunoCurso", $dados_local.cursoId);
+                            if ($dados_local.foto !== null)
+                                $(".fotoAtual").attr("src", "data:image/jpg;base64," + $dados_local.foto);
                         } else {
                             $(".nomeCurso").text(value.Curso.toUpperCase());
                             $(".nometurma").text(value.Turma);
