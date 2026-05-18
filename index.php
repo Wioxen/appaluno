@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517a';
+$ASSET_VERSION = '20260517c';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -727,10 +727,6 @@ $ASSET_VERSION = '20260517a';
             color: #ffffff !important;
             text-decoration: none !important;
         }
-        /* Mantém o lbEscola escondido enquanto tem .hidden — o JS remove a classe quando popula o texto */
-        .main-header #lbEscola.hidden {
-            display: none !important;
-        }
 
         /* nm-title — barra com o nome do aluno em destaque, mesmo tema */
         #nm-title {
@@ -1363,7 +1359,7 @@ $ASSET_VERSION = '20260517a';
                             <span class="students-count" id="alunosCount" aria-hidden="true"></span>
                         </a>
                     </div>
-                    <a href="#" id="lbEscola" class="navbar-brand hidden"></a>
+                    <a href="#" id="lbEscola" class="navbar-brand"></a>
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">

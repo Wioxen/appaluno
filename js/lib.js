@@ -62,7 +62,7 @@ $(document).ready(function () {
     vs = $('#vs').val();
     $('.navbar-left').hide();
     if ($("#codEscola").val() === "80") {
-        $('#lbEscola').removeClass('hidden').html('<strong>FORTES</strong>');
+        $('#lbEscola').html('<strong>FORTES</strong>');
 //        $('.home').hide();
         $('#exc-aluno').hide();
 //        $('#idRegistro').hide();
@@ -291,14 +291,19 @@ $(document).ready(function () {
             $("#lbEscola").text('ENSC');
             break;
         case "241":
-            $('#lbEscola').removeClass('hidden');
-            $("#lbEscola").text('Escola YBÁ');
+            $("#lbEscola").text('YBÁ');
             break;
         case "247":
             $("#lbEscola").text('ENSC');
             break;
         case "149":
             $("#lbEscola").text('EBB');
+            break;
+        case "133":
+            $("#lbEscola").text('Cooeps');
+            break;
+        case "183":
+            $("#lbEscola").text('Cooeps Arraial');
             break;
         default:
     }
