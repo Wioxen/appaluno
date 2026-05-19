@@ -17,7 +17,7 @@ $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
 // URLs dos PDFs individuais
 $urlNarrativasPDF = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".PDF";
-$urlNarrativas    = "https://docs.google.com/gview?embedded=1&url=" . $urlNarrativasPDF;
+$urlNarrativas    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlNarrativasPDF;
 $urlFicha         = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".PDF";
 
 // Bearer Token
