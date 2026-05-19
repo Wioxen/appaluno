@@ -16,9 +16,10 @@ $debug    = isset($_GET['debug'])    ? true : false;
 $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
 // URLs dos PDFs individuais
-$urlNarrativasPDF = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".PDF";
+$urlNarrativasPDF = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".pdf";
 $urlNarrativas    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlNarrativasPDF;
-$urlFicha         = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".PDF";
+$urlFichaPDF      = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".pdf";
+$urlFicha         = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlFichaPDF;
 
 // Bearer Token
 $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
@@ -487,19 +488,6 @@ $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
                     <i class="bi bi-file-earmark-person-fill"></i>
                 </div>
                 <span>Narrativas Individuais</span>
-            </div>
-            <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
-        </a>
-    </div>
-
-    <!-- TESTE: Imagem PNG -->
-    <div class="card-yba">
-        <a href="https://escolayba.com.br/wp-content/uploads/2024/01/Logo-Horizontal-Escola-Yba-300x75.png" target="_blank" rel="noopener" class="btn-narrativa">
-            <div class="card-title-yba">
-                <div class="icon-wrapper">
-                    <i class="bi bi-bug-fill"></i>
-                </div>
-                <span>Teste (Imagem PNG)</span>
             </div>
             <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
         </a>
