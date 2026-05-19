@@ -1692,28 +1692,12 @@ function MenuYba(){
       
       $('.yba-compartilha-1').click(function(){
          var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
-         
-         $('#exampleModal').modal('show');
-         $('#exampleModal').find('.modal-header').addClass('bg-' + $("#cor").val());
-         $('#exampleModal').find('.modal-header').find('.img-circle').attr('src', $('#imgfoto').attr('src'));       
-         $('#exampleModal').find('.modal-header').find('h4').text('YBÁ COMPARTILHA');
-         $('#exampleModal').find('.modal-body').html(`<div class="list-group list-group-flush">
-                                                  <a href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais${vAno}/${nomeReduzido}.PDF" class="list-group-item text-uppercase"><i class="fa fa-hand-o-right"></i> Narrativas  Individuais</a>
-                                                  <a href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/PercursosInvestigativos.php?Escola=${vEscola}&tipo=3&codCurso=${vCurso}&turma=${vTurma}" class="list-group-item text-uppercase"><i class="fa fa-hand-o-right"></i> Vivências Semestrais</a>
-                                                  <a href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/PercursosInvestigativos.php?Escola=${vEscola}&tipo=2&codCurso=${vCurso}&turma=${vTurma}" class="list-group-item text-uppercase"><i class="fa fa-hand-o-right"></i> Percursos Investigativos</a>
-                                                </div>`);
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/yba-compartilha.php?op=1&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
       });
 
       $('.yba-compartilha-2').click(function(){         
          var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
-
-         $('#exampleModal').modal('show');
-         $('#exampleModal').find('.modal-header').addClass('bg-' + $("#cor").val());
-         $('#exampleModal').find('.modal-header').find('.img-circle').attr('src', $('#imgfoto').attr('src'));       
-         $('#exampleModal').find('.modal-header').find('h4').text('YBÁ COMPARTILHA');
-         $('#exampleModal').find('.modal-body').html(`<div class="list-group list-group-flush">
-                                                  <a href="https://alunoapp.sistema2.com.br/url.php?codescola=?codEscola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais${vAno}/${nomeReduzido}.PDF" target="_blank" class="list-group-item text-uppercase"><i class="fa fa-hand-o-right"></i> Ficha de indicadores individuais</a>
-                                                </div>`);
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/yba-compartilha.php?op=2&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
       });
       
       
