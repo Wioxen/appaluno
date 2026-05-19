@@ -745,36 +745,6 @@ $(document).ready(function() {
         $header.attr('data-loaded', 'true');
     });
 
-    /**
-     * Detecta se está rodando em Android (incluindo WebView do Delphi FMX)
-     */
-    function isAndroid() {
-        return /android/i.test(navigator.userAgent);
-    }
-
-    /**
-     * Intercepta cliques em links de PDF para abrir externamente no Android.
-     * O TWebBrowser do Delphi FMX não consegue renderizar PDFs diretamente,
-     * então forçamos a abertura via intent:// (Android Chrome Intent).
-     */
-    $('.btn-narrativa').on('click', function(e) {
-        const url = $(this).attr('href');
-        if (!url || url === '#') return;
-
-        // Mostra alerta com a URL antes de abrir
-        alert('URL que será aberta:\n\n' + url);
-
-        if (isAndroid()) {
-            e.preventDefault();
-            // Remove o https:// e monta um intent que força abrir no navegador externo
-            const urlSemProtocolo = url.replace(/^https?:\/\//, '');
-            const intentUrl = 'intent://' + urlSemProtocolo +
-                              '#Intent;scheme=https;action=android.intent.action.VIEW;end';
-            window.location.href = intentUrl;
-        }
-        // Em outras plataformas (iOS, desktop) deixa o comportamento padrão do <a target="_blank">
-    });
-
 });
 </script>
 
