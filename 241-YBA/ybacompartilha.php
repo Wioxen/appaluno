@@ -7,6 +7,7 @@ $ano      = isset($_GET['ano'])      ? htmlspecialchars($_GET['ano'])      : '';
 $op       = isset($_GET['op'])       ? intval($_GET['op'])                 : 1;
 $debug    = isset($_GET['debug'])    ? true : false;
 
+
 $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
 // URLs dos PDFs individuais
