@@ -1,4 +1,10 @@
 <?php
+// Headers para evitar cache (importante para WebView do Delphi FMX)
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
+
 // Captura dos parâmetros via GET
 $escola   = isset($_GET['escola'])   ? htmlspecialchars($_GET['escola'])   : '';
 $codcurso = isset($_GET['codcurso']) ? htmlspecialchars($_GET['codcurso']) : '';
@@ -6,7 +12,6 @@ $turma    = isset($_GET['turma'])    ? htmlspecialchars($_GET['turma'])    : '';
 $ano      = isset($_GET['ano'])      ? htmlspecialchars($_GET['ano'])      : '';
 $op       = isset($_GET['op'])       ? intval($_GET['op'])                 : 1;
 $debug    = isset($_GET['debug'])    ? true : false;
-
 
 $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
