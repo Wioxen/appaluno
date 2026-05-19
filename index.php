@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517f';
+$ASSET_VERSION = '20260517g';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -783,6 +783,110 @@ $ASSET_VERSION = '20260517f';
             padding-bottom: 0 !important;
         }
 
+        /* ===== Footer principal (notificações) =====
+           Fixo na parte inferior, design moderno com "safe area" para celulares
+           com notch (iPhone X+) e Android com barra de navegação por gestos. */
+        .app-footer {
+            position: fixed !important;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            background: rgba(255, 255, 255, 0.92);
+            -webkit-backdrop-filter: saturate(1.6) blur(14px);
+            backdrop-filter: saturate(1.6) blur(14px);
+            box-shadow:
+                0 -1px 0 rgba(0, 0, 0, 0.04),
+                0 -8px 24px rgba(0, 0, 0, 0.06);
+            /* Respeita a safe area de iPhone com notch e Android moderno */
+            padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+        }
+
+        /* Botão principal do footer */
+        .footer-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 58px;
+            padding: 10px 16px;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            color: #1f8a8b;
+            font-family: inherit;
+            -webkit-tap-highlight-color: rgba(40, 167, 168, 0.12);
+            transition: background 0.15s ease, transform 0.08s ease;
+        }
+        .footer-btn:hover {
+            background: rgba(40, 167, 168, 0.06);
+        }
+        .footer-btn:active {
+            background: rgba(40, 167, 168, 0.12);
+            transform: scale(0.99);
+        }
+        .footer-btn:focus {
+            outline: 0;
+        }
+        .footer-btn:focus-visible {
+            box-shadow: inset 0 0 0 2px rgba(40, 167, 168, 0.35);
+        }
+
+        /* Container do ícone (mantém posição relativa para o badge de notificação) */
+        .footer-btn__icon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            line-height: 0;
+        }
+
+        .footer-btn__icon svg {
+            width: 24px;
+            height: 24px;
+            color: #1f8a8b;
+            stroke: #1f8a8b;
+        }
+
+        /* Badge de notificação (bolinha laranja em cima do sino) */
+        .footer-btn__dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #f39c12;
+            border: 2px solid #ffffff;
+            display: none;
+        }
+        .footer-btn__dot.has-notif {
+            display: block;
+        }
+
+        /* Texto/label */
+        .footer-btn__label {
+            font-size: 12.5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #1f8a8b;
+            line-height: 1;
+        }
+
+        /* Espaçamento extra na base do conteúdo para que o footer fixo
+           não cubra os últimos itens da página */
+        .content-wrapper,
+        .wrapper > .content-wrapper {
+            padding-bottom: 70px;
+        }
+
         /* ===== Lista de informações do aluno (Curso / Turma / Opção de saída) =====
            Layout em 3 linhas x 2 colunas: label à esquerda, valor à direita. */
         .aluno-info-list {
@@ -1496,10 +1600,18 @@ $ASSET_VERSION = '20260517f';
 
     <div id="snackbar">Copiado!</div>
 
-    <footer id="nav" class="main-footer text-center navbar-fixed-bottom" style="padding: 3px;">
-        <button id="btn-not" class="notificacao btn btn-block" style="border: 0px; padding: 0px;">
-            <i class="fa fa-bell"></i>
-            <p class="text-center text-sm text-uppercase"><span id="texto-notificacoes">Notificações</span></p>
+    <footer id="nav" class="main-footer app-footer" role="contentinfo">
+        <button id="btn-not" type="button" class="footer-btn notificacao" aria-label="Notificações">
+            <span class="footer-btn__icon" aria-hidden="true">
+                <!-- Ícone moderno de sino (estilo line) -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="footer-btn__dot" id="footer-notif-dot" aria-hidden="true"></span>
+            </span>
+            <span class="footer-btn__label" id="texto-notificacoes">Notificações</span>
         </button>
     </footer>
 
