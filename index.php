@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517e';
+$ASSET_VERSION = '20260517f';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -1694,13 +1694,17 @@ $ASSET_VERSION = '20260517e';
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -1959,6 +1963,17 @@ $ASSET_VERSION = '20260517e';
 
             try {
                 window.aplicarAluno(aluno);
+
+                // Salva o RM no localStorage para que ao recarregar a página
+                // o app já abra com este aluno (se ele ainda existir na lista)
+                try {
+                    if (aluno && aluno.Codigo) {
+                        localStorage.setItem('rm', String(aluno.Codigo));
+                    }
+                } catch (storageErr) {
+                    // localStorage pode estar bloqueado (modo anônimo / cookies off)
+                    console.warn('[sidebar-alunos] não foi possível salvar rm no localStorage:', storageErr);
+                }
 
                 // Marca o item ativo na lista
                 $('.aluno-item').removeClass('is-active');

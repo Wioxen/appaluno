@@ -418,9 +418,34 @@ $(document).ready(function () {
                     $("#btnAlunos").off('click').on('click', alunosClick);
                 };
 
-                // Carrega o primeiro aluno na interface
+                // Decide qual aluno carregar inicialmente:
+                // 1) Se há um RM salvo no localStorage E ele existe na lista atual -> carrega esse
+                // 2) Caso contrário -> carrega o primeiro aluno da lista
+                //    (e limpa o localStorage se o RM salvo não existe mais)
                 if ($alunos && $alunos.length > 0) {
-                    window.aplicarAluno($alunos[0]);
+                    var alunoInicial = $alunos[0];
+                    try {
+                        var rmSalvo = localStorage.getItem('rm');
+                        if (rmSalvo) {
+                            var encontrado = null;
+                            for (var iA = 0; iA < $alunos.length; iA++) {
+                                if (String($alunos[iA].Codigo) === String(rmSalvo)) {
+                                    encontrado = $alunos[iA];
+                                    break;
+                                }
+                            }
+                            if (encontrado) {
+                                alunoInicial = encontrado;
+                            } else {
+                                // O aluno salvo não está mais na lista — limpa para
+                                // não tentar carregá-lo de novo no próximo refresh.
+                                localStorage.removeItem('rm');
+                            }
+                        }
+                    } catch (storageErr) {
+                        // localStorage indisponível — segue com o primeiro aluno
+                    }
+                    window.aplicarAluno(alunoInicial);
                 }
 
                 // Expõe lista para a sidebar e renderiza
