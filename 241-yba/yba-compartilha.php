@@ -16,8 +16,9 @@ $debug    = isset($_GET['debug'])    ? true : false;
 $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
 // URLs dos PDFs individuais
-$urlNarrativas = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".PDF";
-$urlFicha      = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".PDF";
+$urlNarrativasPDF = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".PDF";
+$urlNarrativas    = "https://docs.google.com/gview?embedded=1&url=" . $urlNarrativasPDF;
+$urlFicha         = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".PDF";
 
 // Bearer Token
 $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
