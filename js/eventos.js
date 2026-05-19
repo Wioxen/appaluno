@@ -1692,12 +1692,12 @@ function MenuYba(){
       
       $('.yba-compartilha-1').click(function(){
          var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
-         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/yba-compartilha.php?op=1&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/ybacompartilha.php?op=1&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
       });
 
       $('.yba-compartilha-2').click(function(){         
          var nomeReduzido = obterPrimeiroUltimoNome(vNomeAluno);         
-         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/yba-compartilha.php?op=2&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/ybacompartilha.php?op=2&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`, '_blank');
       });
       
       
