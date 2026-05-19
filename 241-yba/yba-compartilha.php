@@ -492,6 +492,19 @@ $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
         </a>
     </div>
 
+    <!-- TESTE: Imagem PNG -->
+    <div class="card-yba">
+        <a href="https://escolayba.com.br/wp-content/uploads/2024/01/Logo-Horizontal-Escola-Yba-300x75.png" target="_blank" rel="noopener" class="btn-narrativa">
+            <div class="card-title-yba">
+                <div class="icon-wrapper">
+                    <i class="bi bi-bug-fill"></i>
+                </div>
+                <span>Teste (Imagem PNG)</span>
+            </div>
+            <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
+        </a>
+    </div>
+
     <!-- 2. Vivências Semestrais -->
     <div class="card-yba">
         <div class="card-header-yba"
