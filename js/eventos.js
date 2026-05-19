@@ -1717,5 +1717,6 @@ function obterPrimeiroUltimoNome(nomeCompleto) {
     var primeiroNome = partes[0];
     var ultimoNome = partes[partes.length - 1];
     
-    return primeiroNome + ' ' + ultimoNome;
+    //return primeiroNome + ' ' + ultimoNome;
+    return primeiroNome + ultimoNome;
 }
