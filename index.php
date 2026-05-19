@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517g';
+$ASSET_VERSION = '20260517n';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -886,6 +886,7 @@ $ASSET_VERSION = '20260517g';
         .wrapper > .content-wrapper {
             padding-bottom: 70px;
         }
+
 
         /* ===== Lista de informações do aluno (Curso / Turma / Opção de saída) =====
            Layout em 3 linhas x 2 colunas: label à esquerda, valor à direita. */
