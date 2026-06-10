@@ -4,12 +4,12 @@
  */
 
 // ===== Configuração =====
-// Lê o codEscola via GET e sanitiza (só dígitos, evita path traversal tipo ?codEscola=../../etc)
-$codEscola = isset($_GET['codEscola']) ? preg_replace('/[^0-9]/', '', $_GET['codEscola']) : '';
+// Lê o codescola via GET e sanitiza (só dígitos, evita path traversal tipo ?codescola=../../etc)
+$codescola = isset($_GET['codescola']) ? preg_replace('/[^0-9]/', '', $_GET['codescola']) : '';
 
-// Monta o caminho da imagem; se não vier codEscola, usa um logo padrão
-$logoUrl = $codEscola !== ''
-    ? './images/' . $codEscola . '.png'
+// Monta o caminho da imagem; se não vier codescola, usa um logo padrão
+$logoUrl = $codescola !== ''
+    ? './images/' . $codescola . '.png'
     : './images/logo.png';
 
 // Escape para HTML
