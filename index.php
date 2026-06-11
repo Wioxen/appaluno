@@ -415,6 +415,10 @@ $ASSET_VERSION = '20260517n';
             0%, 100% { transform: scale(1);    filter: brightness(1); }
             50%      { transform: scale(1.04); filter: brightness(1.05); }
         }
+        @media (max-width: 480px) {
+            #preloadSplash .pl-ring { width: 150px; height: 150px; }
+            #preloadSplash .pl-logo { width: 108px; height: 108px; }
+        }
     </style>
 
     <!-- ===== Estilo do botão "adicionar usuário" no menu ===== -->
