@@ -44,6 +44,10 @@ $(document).ready(function () {
     var appRevealed = false;
     window.revealApp = function () {
         if (appRevealed) return;
+        // A rotina de registro (migrada do open.php) pode segurar o reveal:
+        // enquanto __registroLiberado === false, marca pendência e espera a
+        // confirmação (evita piscar o app quando o destino é o registro.php).
+        if (window.__registroLiberado === false) { window.__revealPendente = true; return; }
         appRevealed = true;
         $('body').addClass('app-ready');
         $('#exampleModal2').modal('hide');
@@ -53,7 +57,7 @@ $(document).ready(function () {
 
     // Rede de segurança: se o AJAX inicial demorar mais que 15s, libera mesmo assim
     // para o usuário ver o app (ou ao menos a tela vazia) em vez de splash eterno.
-    setTimeout(function () { window.revealApp(); }, 15000);
+    setTimeout(function () { window.__registroLiberado = true; window.revealApp(); }, 15000);
 
     $isiPhone = / iphone/i.test(navigator.userAgent.toLowerCase());
 
@@ -326,7 +330,7 @@ $(document).ready(function () {
         default:
     }
 
-    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken);
+    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&deviceid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken);
 
     $(".menu").off('click');
 
@@ -470,7 +474,7 @@ $(document).ready(function () {
         error: function (request, status, error) {
             // Esconde o splash inicial enquanto navega, evita ficar com tela em branco
             window.revealApp();
-            window.location.href = './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken;
+            window.location.href = './registro.php?codescola='+vEscola+'&deviceid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken;
         },
         // SEMPRE roda, mesmo se houver exceção dentro do success.
         // Última rede de segurança contra splash eterno.

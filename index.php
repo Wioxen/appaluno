@@ -2,6 +2,41 @@
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
 $ASSET_VERSION = '20260517n';
+
+// ===== Rotina de entrada (antes ficava no open.php) =====
+// Lê os parâmetros do dispositivo, do jeito que vêm na URL.
+$codescola   = isset($_GET['codescola'])   ? $_GET['codescola']   : '';
+$deviceid    = isset($_GET['deviceid'])    ? $_GET['deviceid']    : '';
+$devicetoken = isset($_GET['devicetoken']) ? $_GET['devicetoken'] : '';
+$os          = isset($_GET['os'])          ? $_GET['os']          : '';
+$idEntrada   = isset($_GET['id'])          ? $_GET['id']          : '';
+
+// Só executa o registro do dispositivo numa entrada nova (sem id ainda).
+// Voltando do registro.php o id já vem na URL — aí só carregamos o app.
+$rodarRegistro = ($idEntrada === '');
+
+// Payload enviado para a Web API (mesmos campos do antigo open.php)
+$registro = [
+    'Token'    => $devicetoken,
+    'UniqueID' => $deviceid,
+    'Tipo'     => $os,
+    'DataHora' => date('Y-m-d H:i:s'),
+    'Inativo'  => 'N',
+    'DeviceID' => $deviceid,
+    'Escola'   => $codescola,
+];
+
+// Parâmetros repassados ao redirecionar para o registro.php
+$params = [
+    'codescola'   => $codescola,
+    'deviceid'    => $deviceid,
+    'devicetoken' => $devicetoken,
+    'os'          => $os,
+];
+
+$jsonFlags    = JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+$registroJson = json_encode($registro, $jsonFlags);
+$paramsJson   = json_encode($params, $jsonFlags);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
@@ -1424,7 +1459,7 @@ $ASSET_VERSION = '20260517n';
     <div id="preloadSplash" aria-hidden="true">
         <div class="pl-ring">
             <div class="pl-logo">
-                <img src="./images/<?php echo $_GET['codescola'] ?? ''; ?>.png"
+                <img src="./images/<?php echo $codescola; ?>.png"
                      alt="" onerror="this.style.display='none'" />
             </div>
         </div>
@@ -1433,10 +1468,10 @@ $ASSET_VERSION = '20260517n';
     <a id="bTeste" href="#"></a>
 
     <form id="formMain">
-		<input type="hidden" id="codEscola" name="codEscola" value="<?php echo $_GET['codescola'] ?? '0'; ?>" />
-		<input type="hidden" id="uniqueID"  name="uniqueID"  value="<?php echo $_GET['deviceid']  ?? '';  ?>" />
-		<input type="hidden" id="Id"        name="Id"        value="<?php echo $_GET['id']        ?? '';  ?>" />
-		<input type="hidden" id="devicetoken" name="devicetoken" value="<?php echo $_GET['devicetoken'] ?? ''; ?>" />
+		<input type="hidden" id="codEscola" name="codEscola" value="<?php echo $codescola !== '' ? $codescola : '0'; ?>" />
+		<input type="hidden" id="uniqueID"  name="uniqueID"  value="<?php echo $deviceid; ?>" />
+		<input type="hidden" id="Id"        name="Id"        value="<?php echo $idEntrada; ?>" />
+		<input type="hidden" id="devicetoken" name="devicetoken" value="<?php echo $devicetoken; ?>" />
     </form>
 
     <input id="cor" type="hidden" />
@@ -1841,6 +1876,66 @@ $ASSET_VERSION = '20260517n';
 
     <script src="dist/js/demo.js"></script>
     <script src="js/jquery.loadingModal.js?v=<?php echo $ASSET_VERSION; ?>"></script>
+
+    <!-- ===== Rotina de registro do dispositivo (migrada do open.php) =====
+         Roda antes do boot do app. Enquanto não resolver, o lib.js segura o
+         reveal (window.__registroLiberado === false) para evitar piscar o app
+         quando o destino correto for o registro.php. -->
+    <script>
+    (function () {
+        var rodarRegistro = <?php echo $rodarRegistro ? 'true' : 'false'; ?>;
+        var registro = <?php echo $registroJson; ?>;
+        var params   = <?php echo $paramsJson; ?>;
+
+        // Gate do reveal: false trava o app até a confirmação; sem rotina libera já.
+        window.__registroLiberado = !rodarRegistro;
+
+        function liberar() {
+            if (window.__registroLiberado) return;
+            window.__registroLiberado = true;
+            if (window.__revealPendente && typeof window.revealApp === 'function') {
+                window.revealApp();
+            }
+        }
+
+        function montarUrl(destino, id) {
+            return destino + '?' + $.param($.extend({}, params, { id: id }));
+        }
+
+        if (!rodarRegistro) return; // já veio com id (volta do registro.php) → boot normal
+
+        $.ajax({
+            url: 'https://sistema2.com.br/WebApiSae/api/seialunoregistro',
+            type: 'POST',
+            headers: { 'Authorization': 'Bearer a6db2e47da0e40e8be13aaa93287b14f' },
+            contentType: 'application/json',
+            data: JSON.stringify(registro),
+            success: function (resposta) {
+                if (resposta && resposta.qte === 0) {
+                    // Dispositivo sem aluno → tela de registro (app não é revelado)
+                    window.location.replace(montarUrl('registro.php', resposta ? resposta.Id : ''));
+                    return;
+                }
+                // Já registrado → grava o id e segue o boot
+                if (resposta && typeof resposta.Id !== 'undefined') {
+                    $('#Id').val(resposta.Id);
+                    if (typeof id !== 'undefined') { id = resposta.Id; }
+                    $('#idRegistro').attr('href',
+                        './registro.php?codescola=' + params.codescola +
+                        '&deviceid='    + params.deviceid +
+                        '&id='          + resposta.Id +
+                        '&devicetoken=' + params.devicetoken);
+                }
+                liberar();
+            },
+            error: function (xhr, status, erro) {
+                console.error('Falha no registro do dispositivo:', status, erro, xhr.responseText);
+                liberar(); // fail-open: não trava o usuário no splash
+            }
+        });
+    })();
+    </script>
+
     <script src="js/lib.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/tarefa.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/cotidiano.js?v=<?php echo $ASSET_VERSION; ?>"></script>

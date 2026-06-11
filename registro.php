@@ -5,8 +5,8 @@
  * Parâmetros esperados na URL:
  *   ?codescola=10          → código da escola (envia para a API e usa na imagem)
  *   ?id=42                 → IdSeiAlunoRegistro (envia para a API)
- *   ?uniqueid=ABC123       → repassado no redirect de sucesso
- *   ?vs=2                  → repassado no redirect de sucesso
+ *   ?deviceid=ABC123       → repassado no redirect de sucesso
+ *   ?devicetoken=xyz       → repassado no redirect de sucesso
  *
  * Fluxo:
  *   1. Usuário preenche Matrícula (Codigo) e Senha (SenhaNet)
@@ -18,20 +18,20 @@
  */
 
 // ===== Leitura segura dos parâmetros GET =====
-$codescola = isset($_GET['codescola']) ? preg_replace('/[^0-9]/', '', $_GET['codescola']) : '';
-$id        = isset($_GET['id'])        ? preg_replace('/[^0-9]/', '', $_GET['id'])        : '';
-$uniqueid  = isset($_GET['uniqueid'])  ? trim($_GET['uniqueid'])                          : '';
-$vs        = isset($_GET['vs'])        ? trim($_GET['vs'])                                : '';
+$codescola   = isset($_GET['codescola'])   ? preg_replace('/[^0-9]/', '', $_GET['codescola']) : '';
+$id          = isset($_GET['id'])          ? preg_replace('/[^0-9]/', '', $_GET['id'])        : '';
+$deviceid    = isset($_GET['deviceid'])    ? trim($_GET['deviceid'])                          : '';
+$devicetoken = isset($_GET['devicetoken']) ? trim($_GET['devicetoken'])                       : '';
 
 // Logo do cliente — sempre ./images/{codescola}.png
 $logoUrl = './images/' . $codescola . '.png';
 
-// Escapes para uso seguro em HTML/JS
-$codescolaSafe = htmlspecialchars($codescola, ENT_QUOTES, 'UTF-8');
-$idSafe        = htmlspecialchars($id,        ENT_QUOTES, 'UTF-8');
-$uniqueidSafe  = htmlspecialchars($uniqueid,  ENT_QUOTES, 'UTF-8');
-$vsSafe        = htmlspecialchars($vs,        ENT_QUOTES, 'UTF-8');
-$logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
+// Valores atribuídos do jeito que vêm (sem escape)
+$codescolaSafe   = $codescola;
+$idSafe          = $id;
+$deviceidSafe    = $deviceid;
+$devicetokenSafe = $devicetoken;
+$logoUrlSafe     = $logoUrl;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -359,10 +359,10 @@ $logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
     <script>
         // ===== Parâmetros vindos do PHP =====
         var PARAMS = {
-            codescola: <?php echo json_encode($codescolaSafe); ?>,
-            id:        <?php echo json_encode($idSafe); ?>,
-            uniqueid:  <?php echo json_encode($uniqueidSafe); ?>,
-            vs:        <?php echo json_encode($vsSafe); ?>
+            codescola:   <?php echo json_encode($codescolaSafe); ?>,
+            id:          <?php echo json_encode($idSafe); ?>,
+            deviceid:    <?php echo json_encode($deviceidSafe); ?>,
+            devicetoken: <?php echo json_encode($devicetokenSafe); ?>
         };
 
         var API_URL          = 'https://sistema2.com.br/WebApiSae/api/seialunocadastro';
@@ -394,11 +394,10 @@ $logoUrlSafe   = htmlspecialchars($logoUrl,   ENT_QUOTES, 'UTF-8');
         // ===== Redirect pós-sucesso =====
         function redirectToApp() {
             var qs =
-                'codescola=' + encodeURIComponent(PARAMS.codescola) +
-                '&uniqueid=' + encodeURIComponent(PARAMS.uniqueid) +
-                '&id='       + encodeURIComponent(PARAMS.id) +
-                '&vs='       + encodeURIComponent(PARAMS.vs) +
-                '&op=1';
+                'codescola='    + PARAMS.codescola +
+                '&deviceid='    + PARAMS.deviceid +
+                '&id='          + PARAMS.id +
+                '&devicetoken=' + PARAMS.devicetoken;
             window.location.href = REDIRECT_URL + '?' + qs;
         }
 
