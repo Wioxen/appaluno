@@ -1602,8 +1602,8 @@ function MenuYba(){
                               <div class="box box-solid box-default">
                                  <div class="box-body no-padding">
                                     <ul id="id02" class="nav nav-pills nav-stacked abc">
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/0-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/calendario/0-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
                                        <li><a href="#" class="yba-compartilha-1"><i class="fa fa-handshake-o"></i> YBÁ COMPARTILHA </a></li>
                                        <li><a href="#" class="boleto"><i class="fa fa-barcode"></i> BOLETOS </a></li>
                                        <li><a href="#" class="notificacao"><i class="fa fa-bell"></i> COMUNICADOS/AVISOS </a></li>
@@ -1618,8 +1618,8 @@ function MenuYba(){
                               <div class="box box-solid box-default">
                                  <div class="box-body no-padding">
                                     <ul id="id01" class="nav nav-pills nav-stacked abc">
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/0-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/calendario/0-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
                                        <li><a href="#" class="yba-compartilha-1"><i class="fa fa-handshake-o"></i> YBÁ COMPARTILHA </a></li>
                                        <li><a href="#" class="tarefa"><i class="fa fa-address-book"></i> AGENDA </a></li>
                                        <li><a href="#" class="boleto"><i class="fa fa-barcode"></i> BOLETOS </a></li>
@@ -1634,8 +1634,8 @@ function MenuYba(){
                               <div class="box box-solid box-default">
                                  <div class="box-body no-padding">
                                     <ul id="id01" class="nav nav-pills nav-stacked abc">
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/1-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/calendario/1-${vAno}.pdf"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
                                        <li><a href="#" class="yba-compartilha-2"><i class="fa fa-handshake-o"></i> YBÁ COMPARTILHA </a></li>
                                        <li><a href="#" class="tarefa"><i class="fa fa-address-book"></i> AGENDA </a></li>
                                        <li><a href="#" class="boleto"><i class="fa fa-barcode"></i> BOLETOS </a></li>
@@ -1651,13 +1651,13 @@ function MenuYba(){
          
          switch (vCurso) {
             case '2F1':
-              _calendario = `https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/2-${vAno}.pdf`;
+              _calendario = `https://digite1.websiteseguro.com/seinet/241-YBA/calendario/2-${vAno}.pdf`;
               break;
             case 'F3':
-              _calendario = `https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/3-${vAno}.pdf`;
+              _calendario = `https://digite1.websiteseguro.com/seinet/241-YBA/calendario/3-${vAno}.pdf`;
               break;
             case '3F1':
-              _calendario = `https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/calendario/3-${vAno}.pdf`;
+              _calendario = `https://digite1.websiteseguro.com/seinet/241-YBA/calendario/3-${vAno}.pdf`;
               break;
 			  
             default:
@@ -1669,7 +1669,7 @@ function MenuYba(){
                                  <div class="box-body no-padding">
                                     <ul class="nav nav-pills nav-stacked abc">
                                        <li><a href="#" class="window-open" data-href="${_calendario}"><i class="fa fa-calendar"></i> CALENDÁRIO ANUAL </a></li>
-                                       <li><a href="#" class="window-open" data-href="https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
+                                       <li><a href="#" class="window-open" data-href="https://digite1.websiteseguro.com/seinet/241-YBA/CotidianoSemanal${vAno}/${vCurso}-${vTurma}.PDF"><i class="fa fa-child"></i> COTIDIANO SEMANAL </a></li>
                                        <li><a href="#" class="tarefa"><i class="fa fa-address-book"></i> AGENDA </a></li>
                                        <li><a href="#" class="boletim"><i class="fa fa-file-text-o"></i> BOLETIM </a></li>
                                        <li><a href="#" class="boleto"><i class="fa fa-barcode"></i> BOLETOS </a></li>
@@ -1702,7 +1702,7 @@ function MenuYba(){
 
       $('.window-open').click(function(){         
 		 var $this = $(this);
-         window.open($this.attr('data-href'));
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=${$this.attr('data-href')}`);
       });
            
       ultima_notificacao();      
