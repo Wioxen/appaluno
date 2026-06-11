@@ -1,4 +1,4 @@
-var vs = "";
+var vDeviceToken = "";
 var $dados = {};
 var $alunos = [];
 var $local = [];
@@ -77,7 +77,7 @@ $(document).ready(function () {
 	vUniqueID = $("#uniqueID").val();
     $('#nroserie').text(vUniqueID);
 	id = $.trim($("#Id").val());
-    vs = $('#vs').val();
+    vDeviceToken = $('#devicetoken').val();
     $('.navbar-left').hide();
     if ($("#codEscola").val() === "80") {
         $('#lbEscola').html('<strong>FORTES</strong>');
@@ -326,7 +326,7 @@ $(document).ready(function () {
         default:
     }
 
-    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs);
+    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken);
 
     $(".menu").off('click');
 
@@ -470,7 +470,7 @@ $(document).ready(function () {
         error: function (request, status, error) {
             // Esconde o splash inicial enquanto navega, evita ficar com tela em branco
             window.revealApp();
-            window.location.href = './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&vs='+vs;
+            window.location.href = './registro.php?codescola='+vEscola+'&uniqueid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken;
         },
         // SEMPRE roda, mesmo se houver exceção dentro do success.
         // Última rede de segurança contra splash eterno.

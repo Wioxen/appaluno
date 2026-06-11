@@ -1420,7 +1420,7 @@ $ASSET_VERSION = '20260517n';
     <div id="preloadSplash" aria-hidden="true">
         <div class="pl-ring">
             <div class="pl-logo">
-                <img src="./images/<?php echo htmlspecialchars($_GET['codescola'] ?? '', ENT_QUOTES, 'UTF-8'); ?>.png"
+                <img src="./images/<?php echo $_GET['codescola'] ?? ''; ?>.png"
                      alt="" onerror="this.style.display='none'" />
             </div>
         </div>
@@ -1429,10 +1429,10 @@ $ASSET_VERSION = '20260517n';
     <a id="bTeste" href="#"></a>
 
     <form id="formMain">
-		<input type="hidden" id="codEscola" name="codEscola" value="<?php echo htmlspecialchars($_GET['codescola'] ?? '0', ENT_QUOTES, 'UTF-8'); ?>" />
-		<input type="hidden" id="uniqueID"  name="uniqueID"  value="<?php echo htmlspecialchars($_GET['uniqueid']  ?? '',  ENT_QUOTES, 'UTF-8'); ?>" />
-		<input type="hidden" id="Id"        name="Id"        value="<?php echo htmlspecialchars($_GET['id']        ?? '',  ENT_QUOTES, 'UTF-8'); ?>" />
-		<input type="hidden" id="vs"        name="vs"        value="<?php echo htmlspecialchars($_GET['vs']        ?? '',  ENT_QUOTES, 'UTF-8'); ?>" />
+		<input type="hidden" id="codEscola" name="codEscola" value="<?php echo $_GET['codescola'] ?? '0'; ?>" />
+		<input type="hidden" id="uniqueID"  name="uniqueID"  value="<?php echo $_GET['deviceid']  ?? '';  ?>" />
+		<input type="hidden" id="Id"        name="Id"        value="<?php echo $_GET['id']        ?? '';  ?>" />
+		<input type="hidden" id="devicetoken" name="devicetoken" value="<?php echo $_GET['devicetoken'] ?? ''; ?>" />
     </form>
 
     <input id="cor" type="hidden" />
