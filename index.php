@@ -1898,11 +1898,7 @@ $paramsJson   = json_encode($params, $jsonFlags);
             }
         }
 
-        function montarUrl(destino, id) {
-            return destino + '?' + $.param($.extend({}, params, { id: id }));
-        }
-
-        if (!rodarRegistro) return; // já veio com id (volta do registro.php) → boot normal
+        if (!rodarRegistro) return; // já veio com id (volta do registro) → boot normal
 
         $.ajax({
             url: 'https://sistema2.com.br/WebApiSae/api/seialunoregistro',
@@ -1911,21 +1907,19 @@ $paramsJson   = json_encode($params, $jsonFlags);
             contentType: 'application/json',
             data: JSON.stringify(registro),
             success: function (resposta) {
-                if (resposta && resposta.qte === 0) {
-                    // Dispositivo sem aluno → tela de registro (app não é revelado)
-                    window.location.replace(montarUrl('registro.php', resposta ? resposta.Id : ''));
-                    return;
-                }
-                // Já registrado → grava o id e segue o boot
+                // Grava o id do registro do dispositivo (usado pelo modal/cadastro)
                 if (resposta && typeof resposta.Id !== 'undefined') {
                     $('#Id').val(resposta.Id);
                     if (typeof id !== 'undefined') { id = resposta.Id; }
-                    $('#idRegistro').attr('href',
-                        './registro.php?codescola=' + params.codescola +
-                        '&deviceid='    + params.deviceid +
-                        '&id='          + resposta.Id +
-                        '&devicetoken=' + params.devicetoken);
                 }
+                if (resposta && resposta.qte === 0) {
+                    // Dispositivo sem aluno → abre o modal de registro (fullscreen)
+                    if (typeof window.abrirRegistroModal === 'function') {
+                        window.abrirRegistroModal(resposta.Id);
+                    }
+                    return; // app continua oculto por trás do modal
+                }
+                // Já tem aluno → segue o boot normal
                 liberar();
             },
             error: function (xhr, status, erro) {
@@ -2193,6 +2187,203 @@ $paramsJson   = json_encode($params, $jsonFlags);
             } catch (err) {
                 console.error('[sidebar-alunos] erro em aplicarAluno:', err);
             }
+        });
+    })();
+    </script>
+
+    <!-- ===================================================================
+         Modal fullscreen de registro/login (migrado do antigo registro.php).
+         Aberto via window.abrirRegistroModal() no lugar de redirecionar.
+         =================================================================== -->
+    <style>
+        #registroModal {
+            position: fixed; inset: 0; z-index: 100000;
+            background: #ffffff; display: none; overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #1a1a1a; -webkit-font-smoothing: antialiased;
+        }
+        #registroModal.open { display: block; }
+        #registroModal * { box-sizing: border-box; }
+        #registroModal .reg-topbar { display:flex; align-items:center; justify-content:flex-end; padding:14px 18px; background:#f7f7f7; border-bottom:1px solid #eaeaea; min-height:52px; }
+        #registroModal .reg-close { background:transparent; border:0; padding:4px 8px; color:#1e7be0; cursor:pointer; line-height:1; }
+        #registroModal .reg-close svg { width:22px; height:22px; stroke:#1e7be0; }
+        #registroModal .reg-wrap { width:100%; max-width:480px; margin:0 auto; padding:24px 24px 64px; }
+        #registroModal .reg-logo { display:flex; justify-content:center; align-items:center; margin:8px 0 32px; min-height:80px; }
+        #registroModal .reg-logo img { max-width:78%; max-height:110px; object-fit:contain; }
+        #registroModal .reg-title { font-size:28px; font-weight:400; text-align:center; margin:0 0 6px; color:#1a1a1a; }
+        #registroModal .reg-subtitle { font-size:14px; color:#4a4a4a; text-align:center; margin:0 0 28px; }
+        #registroModal .reg-row { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+        #registroModal .reg-row label { flex:0 0 auto; min-width:92px; text-align:right; font-size:15px; color:#1a1a1a; font-weight:400; margin:0; }
+        #registroModal .reg-control { flex:1 1 auto; width:100%; height:38px; border-radius:6px; border:1px solid #c8c8c8; padding:4px 10px; font-size:15px; background:#fff; transition:border-color .15s, box-shadow .15s; }
+        #registroModal .reg-control:focus { outline:none; border-color:#28a7a8; box-shadow:0 0 0 3px rgba(40,167,168,.18); }
+        #registroModal .reg-btnwrap { display:flex; justify-content:center; margin-top:22px; }
+        #registroModal .reg-btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 28px 10px 18px; background:linear-gradient(180deg,#36a8e0 0%,#1a7fb8 100%); color:#fff; border:0; border-radius:999px; font-size:18px; font-weight:700; letter-spacing:.5px; cursor:pointer; box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 3px 10px rgba(26,127,184,.35); transition:transform .08s ease, box-shadow .15s; }
+        #registroModal .reg-btn:hover:not(:disabled){ box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 5px 14px rgba(26,127,184,.45); }
+        #registroModal .reg-btn:active:not(:disabled){ transform:translateY(1px); }
+        #registroModal .reg-btn:disabled{ opacity:.7; cursor:not-allowed; }
+        #registroModal .reg-icon{ display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:linear-gradient(180deg,#1a7fb8,#115a85); box-shadow:inset 0 1px 0 rgba(255,255,255,.2); }
+        #registroModal .reg-icon svg{ width:16px; height:16px; fill:#fff; }
+        #registroModal .reg-toaststack{ position:fixed; top:16px; left:0; right:0; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:100002; pointer-events:none; padding:0 16px; }
+        #registroModal .reg-toast{ background:#1a1a1a; color:#fff; padding:12px 18px; border-radius:8px; font-size:14px; max-width:420px; box-shadow:0 6px 20px rgba(0,0,0,.18); opacity:0; transform:translateY(-10px); transition:opacity .25s, transform .25s; pointer-events:auto; text-align:center; }
+        #registroModal .reg-toast.show{ opacity:1; transform:translateY(0); }
+        #registroModal .reg-toast.reg-toast-error{ background:#c0392b; }
+        #registroModal .reg-toast.reg-toast-warning{ background:#c98217; }
+        #registroModal .reg-overlay{ position:fixed; inset:0; background:rgba(255,255,255,.7); display:none; align-items:center; justify-content:center; z-index:100001; backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); }
+        #registroModal .reg-overlay.active{ display:flex; }
+        #registroModal .reg-spinner{ width:56px; height:56px; border-radius:50%; border:3px solid rgba(40,167,168,.2); border-top-color:#28a7a8; animation:regspin .9s linear infinite; }
+        @keyframes regspin{ to{ transform:rotate(360deg); } }
+        @media (max-width:380px){ #registroModal .reg-row label{ min-width:84px; font-size:14px; } #registroModal .reg-title{ font-size:24px; } }
+    </style>
+
+    <div id="registroModal" aria-hidden="true">
+        <div class="reg-topbar">
+            <button type="button" class="reg-close" id="regBtnClose" aria-label="Fechar">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="reg-wrap">
+            <div class="reg-logo">
+                <img id="regClientLogo" src="./images/<?php echo $codescola; ?>.png" alt="Logo"
+                     onerror="this.style.display='none'" />
+            </div>
+            <h1 class="reg-title">Login</h1>
+            <p class="reg-subtitle">Informe os dados abaixo</p>
+            <form id="regLoginForm" autocomplete="off" novalidate>
+                <div class="reg-row">
+                    <label for="regInpMatricula">Matrícula:</label>
+                    <input type="text" id="regInpMatricula" name="Codigo" class="reg-control" inputmode="numeric" autocomplete="off" required />
+                </div>
+                <div class="reg-row">
+                    <label for="regInpSenha">Senha:</label>
+                    <input type="password" id="regInpSenha" name="SenhaNet" class="reg-control" autocomplete="off" required />
+                </div>
+                <div class="reg-btnwrap">
+                    <button type="submit" class="reg-btn" id="regBtnLogin">
+                        <span class="reg-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M17 8h-1V6c0-2.76-2.24-5-5-5S6 3.24 6 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                        </span>
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="reg-toaststack" id="regToastStack" aria-live="polite"></div>
+        <div class="reg-overlay" id="regSubmitOverlay" aria-hidden="true">
+            <div class="reg-spinner" role="status" aria-label="Carregando"></div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        // Parâmetros do dispositivo (mesmos do boot). id é definido ao abrir o modal.
+        var REG_PARAMS = <?php echo $paramsJson; ?>;
+        REG_PARAMS.id = '';
+
+        var API_CADASTRO = 'https://sistema2.com.br/WebApiSae/api/seialunocadastro';
+        var API_REGISTRO = 'https://sistema2.com.br/WebApiSae/api/seialunoregistro';
+
+        function regToast(msg, type) {
+            type = type || 'error';
+            var $t = $('<div class="reg-toast reg-toast-' + type + '"></div>').text(msg);
+            $('#regToastStack').append($t);
+            $t[0].offsetHeight; // reflow para animar
+            $t.addClass('show');
+            setTimeout(function () {
+                $t.removeClass('show');
+                setTimeout(function () { $t.remove(); }, 300);
+            }, 3500);
+        }
+
+        function regLoading(active) {
+            $('#regSubmitOverlay').toggleClass('active', !!active);
+            $('#regBtnLogin').prop('disabled', !!active);
+        }
+
+        // Entra no app: recarrega o index.php já com o id (pula o registro e carrega os dados)
+        function regEnterApp() {
+            window.location.href = 'index.php?codescola=' + REG_PARAMS.codescola +
+                '&deviceid='    + REG_PARAMS.deviceid +
+                '&id='          + REG_PARAMS.id +
+                '&devicetoken=' + REG_PARAMS.devicetoken;
+        }
+
+        // Abre o modal de registro (substitui o antigo registro.php)
+        window.abrirRegistroModal = function (regId) {
+            if (typeof regId !== 'undefined' && regId !== null && regId !== '') {
+                REG_PARAMS.id = regId;
+                $('#Id').val(regId);
+            } else {
+                REG_PARAMS.id = $('#Id').val();
+            }
+            $('#registroModal').addClass('open').attr('aria-hidden', 'false');
+            setTimeout(function () { $('#regInpMatricula').trigger('focus'); }, 50);
+        };
+
+        window.fecharRegistroModal = function () {
+            $('#registroModal').removeClass('open').attr('aria-hidden', 'true');
+        };
+
+        // ===== Submit: cadastra o aluno =====
+        $('#regLoginForm').on('submit', function (e) {
+            e.preventDefault();
+            var matricula = $.trim($('#regInpMatricula').val());
+            var senha     = $('#regInpSenha').val();
+            if (matricula === '' || senha === '') {
+                regToast('Preencha matrícula e senha', 'warning');
+                return;
+            }
+            var payload = {
+                Escola:             REG_PARAMS.codescola,
+                Codigo:             matricula,
+                SenhaNet:           senha,
+                IdSeiAlunoRegistro: REG_PARAMS.id
+            };
+            regLoading(true);
+            $.ajax({
+                url: API_CADASTRO, method: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json', data: JSON.stringify(payload), timeout: 20000
+            })
+            .done(function (data, textStatus, jqXHR) {
+                if (jqXHR.status === 200 || jqXHR.status === 201) {
+                    regEnterApp();
+                } else {
+                    regLoading(false);
+                    regToast('Dados inválidos', 'error');
+                }
+            })
+            .fail(function (jqXHR) {
+                regLoading(false);
+                if (jqXHR.status === 500) regToast('Falha ao se comunicar com o serviço', 'error');
+                else regToast('Dados inválidos', 'error');
+            });
+        });
+
+        // ===== Fechar: só sai se houver aluno cadastrado =====
+        $('#regBtnClose').on('click', function () {
+            regLoading(true);
+            $.ajax({
+                url: API_REGISTRO, method: 'GET',
+                data: { id: REG_PARAMS.id }, dataType: 'json', timeout: 20000
+            })
+            .done(function (data, textStatus, jqXHR) {
+                regLoading(false);
+                if (jqXHR.status !== 200) { regToast('Cadastre ao menos um aluno antes de continuar', 'warning'); return; }
+                var lista = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : null);
+                if (!lista || lista.length === 0) { regToast('Cadastre ao menos um aluno antes de continuar', 'warning'); return; }
+                var primeiro = lista[0];
+                var qte = primeiro && primeiro.qte != null ? Number(primeiro.qte) : 0;
+                if (qte > 0) regEnterApp();
+                else regToast('Cadastre ao menos um aluno antes de continuar', 'warning');
+            })
+            .fail(function (jqXHR) {
+                regLoading(false);
+                if (jqXHR.status === 500) regToast('Falha ao se comunicar com o serviço', 'error');
+                else regToast('Cadastre ao menos um aluno antes de continuar', 'warning');
+            });
         });
     })();
     </script>

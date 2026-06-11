@@ -330,7 +330,13 @@ $(document).ready(function () {
         default:
     }
 
-    $("#idRegistro").attr('href', './registro.php?codescola='+vEscola+'&deviceid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken);
+    // Botão "adicionar aluno" → abre o modal de registro (antes ia para registro.php)
+    $("#idRegistro").attr('href', '#').off('click.registro').on('click.registro', function (e) {
+        e.preventDefault();
+        if (typeof window.abrirRegistroModal === 'function') {
+            window.abrirRegistroModal($.trim($("#Id").val()));
+        }
+    });
 
     $(".menu").off('click');
 
@@ -472,9 +478,13 @@ $(document).ready(function () {
             },
         beforeSend: aguarda2,
         error: function (request, status, error) {
-            // Esconde o splash inicial enquanto navega, evita ficar com tela em branco
+            // Falha ao carregar os dados do aluno → abre o modal de registro.
+            // Libera o gate e revela para o modal aparecer por cima do app.
+            window.__registroLiberado = true;
             window.revealApp();
-            window.location.href = './registro.php?codescola='+vEscola+'&deviceid='+vUniqueID+'&id='+id+'&devicetoken='+vDeviceToken;
+            if (typeof window.abrirRegistroModal === 'function') {
+                window.abrirRegistroModal($.trim($("#Id").val()));
+            }
         },
         // SEMPRE roda, mesmo se houver exceção dentro do success.
         // Última rede de segurança contra splash eterno.
