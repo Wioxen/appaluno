@@ -1322,7 +1322,7 @@ function calendarioClick(e) {
     var $this = $(this);
 
     setTimeout(function () {
-        window.open($this.find('a').attr('href'), '_blank');
+        window.open($this.find('a').attr('href'));
     }, 500);
 }
 
