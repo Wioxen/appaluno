@@ -1700,9 +1700,18 @@ function MenuYba(){
          window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/241-yba/yba-compartilha.php?op=2&escola=${vEscola}&codcurso=${vCurso}&turma=${vTurma}&nome=${nomeReduzido}&ano=${vAno}`);
       });
 
-      $('.window-open').click(function(){         
+      $('.window-open').click(function(){
 		 var $this = $(this);
-         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=${$this.attr('data-href')}`);
+		 var href = $this.attr('data-href');
+
+		 // No Android o PDF não abre inline na WebView → usa o visualizador do Google Docs.
+		 // Extensão checada ignorando query string/âncora.
+		 var ext = (href.split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
+		 if (/android/i.test(navigator.userAgent) && ext === 'pdf') {
+		     href = 'https://docs.google.com/gview?embedded=1&url=' + href;
+		 }
+
+         window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=${href}`);
       });
            
       ultima_notificacao();      
