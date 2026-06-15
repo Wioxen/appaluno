@@ -1083,97 +1083,44 @@ function ultima_notificacao() {
             $('#exampleModal2').modal('hide');
         },
         success: function (data) {
-            $('.modal-body2').html('<ul class="timeline" style="margin: 5px;margin-right:0px;"></ul>');
+            // Sucesso = há notificações não visualizadas (quando não há, a API
+            // retorna 404 e cai no 'error', que apenas fecha o modal).
+            if (!data || (Array.isArray(data) && data.length === 0)) {
+                $('#exampleModal2').modal('hide');
+                return;
+            }
 
-            var $diaextenso = '';
-            $.each(data, function (index, value) {
-                var $aluno = $alunos[$alunos.findIndex(obj => obj.Codigo === value.Codigo.toString())];
-
-                //$(".modal-body2").css('background', '#ECF0F5');
-                var $lixo = value.Data.split(' ')[0].split('/')[0] + ' de ' + zMesExtenso(value.Data.split(' ')[0].split('/')[1]).substr(0, 3).toUpperCase() + ' de ' + value.Data.split(' ')[0].substr(6, 4);
-                var otherDate = value.Data.split(' ')[0].split('/')[0] + '/' + value.Data.split(' ')[0].split('/')[1] + '/' + value.Data.split(' ')[0].split('/')[2];
-
-                var d = new Date();
-                var today = ("00" + d.getDate()).slice(-2) + "/" + ("00" + (d.getMonth() + 1)).slice(-2) + "/" + ("0000" + d.getFullYear()).slice(-4);
-                var isToday = (today === otherDate);
-
-                if ($diaextenso !== $lixo) {
-                    $(".modal-body2 > ul").append('<li class="time-label" style="padding-top: 0px;padding: 0px;"><span class="bg-' + $('#cor').val() + '"><i class="fa fa-calendar" style="margin-right: 10px;"></i> ' + $lixo + ' ' + ((isToday) ? '<span style="margin-left: 10px;" class="label label-default label-warning">HOJE<span>' : "") + '</span></li>');
-                }
-
-                $(".modal-body2 > ul").append('<li><div class="col-sm-2 col-xs-2" style="padding: 0px;"><img class="img-circle fotonot" style="border: 3px solid; width: 55px; height: 55px;" src="' + $aluno.Foto + '"/></div><div class="col-sm-10 col-xs-10" style="padding-right: 0px;padding-left: 5px;"></div></li>');
-
-                $('.col-sm-10').last().html('<div class="x" style="background-color: #fff;border: 0px solid transparent;border-radius: 4px;"></div>');
-
-                $('.x').last().html(
-                    '<div class="panel panel-default" style="margin-bottom: 5px;">' +
-                    '<div class="panel-heading">' +
-                    '<div class="row">' +
-                    '<div class="col-sm-10 col-xs-10"><strong>' + value.Titulo.toUpperCase() + '</strong></div>' +
-                    '<div class="col-sm-2 col-xs-2" style="padding-right: 5px;padding-left: 0px;"><i class="fa fa-commenting fa-2x" style="float: right;"></i></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div id="panel-body-' + value.Id + '" class="panel-body">' +
-                    '<p style="text-align: justify;text-justify:inter-word;">' + value.Texto + '</p>' +
-                    '</div>' +
-                    '<div id="panel-footer-' + value.Id + '" class="panel-footer" style="text-align: right;box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;">' +
-                    '<small class="description"><i class="fa fa-clock-o"></i> ' + value.Data.split(' ')[1].split(':')[0] + ':' + value.Data.split(' ')[1].split(':')[1] + '</span>' +
-                    '</div>' +
-                    '</div>');
-
-                $('.fotonot').css('color', $('#boxInicio').css('background-color'));
-                $('.fa-commenting').css('color', $('#boxInicio').css('background-color'));
-
-                if (($.trim(value.Relator) !== "") && ($.trim(value.Relator) !== "NULL")) {
-                    $("#panel-footer-" + value.Id).append('<div style="position: absolute; bottom: 11px;">' +
-                        '<button data-phone="' + value.RelatorTelefone + '" class="btn btn-default btn-circle phone" style="margin-right: 10px;"><i class="glyphicon glyphicon-earphone"></i></button>' +
-                        '<button data-mail="' + value.RelatoreMail + '" class="btn btn-default btn-circle mail"><i class="glyphicon glyphicon-envelope"></i></button></div>');
-                }
-
-                if ($.trim(value.Link) !== "") {
-                   if ($.inArray(vEscola, ["241"]) === -1){
-                      $("#panel-body-" + value.Id).append('<a href="'+value.Link+'" target="_blank" data-codigo="' + value.Codigo +'" class="btn bg-' + $('#cor').val() + '" data-link="' + value.Link + '" style="float: right;">Visualizar</a>');
-                   } else {
-                      $("#panel-body-" + value.Id).append(`<a class="btn bg-${$('#cor').val()}" href="https://www.sistema2.com.br/appaluno/url.ashx?codEscola=${vEscola}&url=${value.Link}" target="_blank" style="float: right;">Visualizar </a>`);
-                   }
-                }
-
-                if (parseInt($.trim(value.Tarefa.id)) !== 0) {
-                    var count = parseInt(value.Tarefa.count);
-                    if (count > 0) {
-                        var $obj = value.Tarefa.data;
-                        $.each($obj, function (i, v) {
-                            $("#panel-body-" + value.Id).append('<div class="row" style="margin-bottom: 3px;"><div class="col-sm-12 col-xs-12"><a href="#" target="_blank" data-codigo="' + value.Codigo +'" id="b' + v.id + '" class="btn btn-block link-t bg-' + $('#cor').val() + '" data-id="' + v.id + '">' + v.descricao.substr(0, 30) + '</a></div></div>');
-                            $('#b' + v.id).attr('data-loading-text', "<i class='fa fa-circle-o-notch fa-spin'></i> Processando...");
-                        });
-                    }
-                }
-
-                $diaextenso = value.Data.split(' ')[0].split('/')[0] + ' de ' + zMesExtenso(value.Data.split(' ')[0].split('/')[1]).substr(0, 3).toUpperCase() + ' de ' + value.Data.split(' ')[0].substr(6, 4);
+            // Oculta o header neste modal (restaura ao fechar, para não afetar outros usos)
+            $('#myModal .modal-header2').hide();
+            $('#myModal').one('hidden.bs.modal', function () {
+                $('#myModal .modal-header2').show();
             });
 
-            $(".phone").on("click", function () {
-                window.open("tel:" + $(this).attr('data-phone'), '_blank');
+            $('.modal-body2').css('height', 'auto').html(
+                '<div style="padding:26px 22px;text-align:center;font-size:16px;line-height:1.5;color:#333;">' +
+                'Você tem notificações que ainda não foram visualizadas.<br><br>Deseja visualizar agora?</div>'
+            );
+
+            $('.modal-footer2').show().html(
+                '<div class="container" style="display:flex;gap:12px;justify-content:center;padding-bottom:6px;">' +
+                '<button id="btnNotNao" class="btn btn-default" style="min-width:120px;font-weight:bold;">Não</button>' +
+                '<button id="btnNotSim" class="btn bg-' + $('#cor').val() + '" style="min-width:120px;font-weight:bold;color:#fff;">Sim</button>' +
+                '</div>'
+            );
+
+            // Não → some com o modal
+            $('#btnNotNao').off('click').on('click', function () {
+                $('#myModal').modal('hide');
             });
 
-            $(".mail").on("click", function (e) {
-                window.open("mailto:" + $(this).attr('data-mail'), '_blank');
+            // Sim → abre a mesma URL do clique em .notificacao
+            $('#btnNotSim').off('click').on('click', function () {
+                $('#myModal').modal('hide');
+                window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`);
             });
 
-            $(".link").on("click", evtLinkClick);
-            $(".link-t").on("click", evtLinkTClick);
-
-            $('.modal-body2').css('height', 'calc(100% - 70px)');
-            $('.modal-footer2').hide();
-            $('#modalfoto').attr('src', './images/download.png');
-            $('#modaltitulo').text($('.notificacao').text());
-            $('.modal-header2').addClass('bg-' + $("#cor").val());
             $('#exampleModal2').modal('hide');
             $('#myModal').modal('show');
-
-            setTimeout(function () {
-                $('#myModal .modal-body').scrollTop(0);
-            }, 300);
         }
     });
 }
