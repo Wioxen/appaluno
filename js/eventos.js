@@ -1090,38 +1090,45 @@ function ultima_notificacao() {
                 return;
             }
 
-            // Oculta o header neste modal (restaura ao fechar, para não afetar outros usos)
-            $('#myModal .modal-header2').hide();
-            $('#myModal').one('hidden.bs.modal', function () {
-                $('#myModal .modal-header2').show();
-            });
+            // ultima_notificacao é chamada em vários pontos do boot — só exibe uma vez.
+            if (window.__confirmNotShown) { return; }
+            window.__confirmNotShown = true;
 
-            $('.modal-body2').css('height', 'auto').html(
-                '<div style="padding:26px 22px;text-align:center;font-size:16px;line-height:1.5;color:#333;">' +
-                'Você tem notificações que ainda não foram visualizadas.<br><br>Deseja visualizar agora?</div>'
-            );
-
-            var corBtn = $("body > div.wrapper > header > nav").css('background-color') || '#28a7a8';
-            $('.modal-footer2').show().html(
-                '<div class="container" style="display:flex;gap:12px;justify-content:center;padding-bottom:6px;">' +
-                '<button id="btnNotNao" class="btn btn-default" style="min-width:120px;font-weight:bold;">Não</button>' +
-                '<button id="btnNotSim" class="btn" style="min-width:120px;font-weight:bold;color:#fff;background-color:' + corBtn + ';border-color:' + corBtn + ';">Sim</button>' +
-                '</div>'
-            );
-
-            // Não → some com o modal
-            $('#btnNotNao').off('click').on('click', function () {
-                $('#myModal').modal('hide');
-            });
-
-            // Sim → abre a mesma URL do clique em .notificacao
-            $('#btnNotSim').off('click').on('click', function () {
-                $('#myModal').modal('hide');
-                window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`);
-            });
+            // Overlay próprio (independente do Bootstrap/#myModal): o #myModal é
+            // compartilhado e disputado por vários fluxos durante o boot, o que fazia
+            // a confirmação não aparecer. Este overlay tem z-index acima de tudo.
+            // Botão Sim com cor fixa (teal sólido) para o texto branco ficar sempre visível.
+            var overlay =
+                '<div id="notConfirmOverlay" style="position:fixed;inset:0;z-index:200000;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;font-family:inherit;">' +
+                    '<div style="background:#fff;border-radius:12px;max-width:300px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25);overflow:hidden;">' +
+                        '<div style="padding:22px 18px;text-align:center;font-size:15px;line-height:1.45;color:#333;">' +
+                            'Você tem notificações que ainda não foram visualizadas.<br><br>Deseja visualizar agora?' +
+                        '</div>' +
+                        '<div style="display:flex;gap:8px;justify-content:center;padding:0 16px 18px;">' +
+                            '<button id="notConfirmNao" style="min-width:96px;padding:9px 14px;border:1px solid #ccc;border-radius:8px;background:#fff;color:#333;font-weight:bold;cursor:pointer;">Não</button>' +
+                            '<button id="notConfirmSim" style="min-width:96px;padding:9px 14px;border:0;border-radius:8px;background:#28a7a8;color:#ffffff;font-weight:bold;cursor:pointer;">Sim</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
 
             $('#exampleModal2').modal('hide');
-            $('#myModal').modal('show');
+
+            // Pequeno atraso só para aparecer depois do app revelar.
+            setTimeout(function () {
+                $('#notConfirmOverlay').remove();
+                $('body').append(overlay);
+
+                // Não → some com o overlay
+                $('#notConfirmNao').off('click').on('click', function () {
+                    $('#notConfirmOverlay').remove();
+                });
+
+                // Sim → abre a mesma URL do clique em .notificacao
+                $('#notConfirmSim').off('click').on('click', function () {
+                    $('#notConfirmOverlay').remove();
+                    window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`);
+                });
+            }, 600);
         }
     });
 }

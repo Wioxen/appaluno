@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260517n';
+$ASSET_VERSION = '20260615a';
 
 // ===== Rotina de entrada (antes ficava no open.php) =====
 // Lê os parâmetros do dispositivo, do jeito que vêm na URL.
