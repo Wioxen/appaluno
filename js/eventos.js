@@ -890,7 +890,7 @@ function carregaMenu() {
     $(".boleto").off('click').on('click', boletoClick);
     $(".nota").off('click').on('click', notaClick);
     $(".tarefa").off('click').on('click', tarefaClick);
-    $(".notificacao").off('click').on('click', notificacaoClick);
+    $(".notificacao").off('click').on('click', function (e) { e.preventDefault(); window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`); });
     $(".ocorrencia").off('click').on('click', ocorrenciaClick);
     $(".rotina").off('click').on('click', cotidianoClick);
     $(".galeria").off('click').on('click', galeriaClick);
@@ -1684,7 +1684,7 @@ function MenuYba(){
 //	  $('.abc').append(`<li><a href="#" class="vejamais"><i class="fa fa-eyes"></i> VEJA MAIS </a></li>`);
       
       $("#texto-notificacoes").text('Comunicados/Avisos');
-      $(".notificacao").off('click').on('click', notificacaoClick);      
+      $(".notificacao").off('click').on('click', function (e) { e.preventDefault(); window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`); });      
       $(".boleto").off('click').on('click', boletoClick);      
       $(".boletim").off('click').on('click', notaClick);
       $(".tarefa").off('click').on('click', tarefaClick);
