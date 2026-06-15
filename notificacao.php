@@ -75,7 +75,7 @@ $bootJson = json_encode([
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); flex-shrink: 0;
         }
         .hero-icon i { font-size: 22px; color: #fff; }
-        .hero-title { font-size: 24px; font-weight: 700; line-height: 1.2; margin: 0; }
+        .hero-title { font-size: 20px; font-weight: 700; line-height: 1.2; margin: 0; }
         .hero-subtitle {
             font-size: 14px; opacity: 0.9; font-weight: 400; line-height: 1.5;
             position: relative; z-index: 1;
