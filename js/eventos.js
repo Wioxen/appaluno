@@ -900,7 +900,9 @@ function carregaMenu() {
     $(".video").off('click').on('click', videoclick);
     $(".documento").off('click').on('click', clickDocumento);
 
-//    $(".boletim").off('click').on('click', boletimClick);
+    // Boletim começa oculto; loadBoletim() o exibe se houver boletim disponível
+    $('.boletim').hide();
+    loadBoletim();
 //    $(".quadro").off('click');
   //  $(".quadro").on('click', cliqueQuadro);
 
@@ -1133,22 +1135,50 @@ function ultima_notificacao() {
     });
 }
 
-function loadBoletim(dataCodigo) {
-    $.getJSON("https://www.sistema2.com.br/WebApiSae/api/alunomenu/" + dataCodigo, function (data) {
-        $('.boletim').find('a').attr('id', 'B' + dataCodigo);
-        $('.boletim').find('a').attr('target', '_blank');
+function loadBoletim() {
+    // Sem item de boletim no menu → não consulta
+    if ($('.boletim').length === 0) return;
 
-        var _href = 'https://www.sistema2.com.br/appaluno/url.ashx?codEscola=' + $(".fotoAtual").attr("data-escola") + '&url=' + data.URL;
+    var $escola = $(".fotoAtual").attr("data-escola");
+    var $codigo = $(".fotoAtual").attr("data-codigo");
 
+    // Boletim começa oculto; só aparece se a consulta retornar a URL
+    $('.boletim').hide();
 
-        if (vs === "1") {
-            if (isiPhone) {
-                _href = data.URL;
-            }
+    $.ajax({
+        type: "GET",
+        headers: { "Authorization": "Bearer a6db2e47da0e40e8be13aaa93287b14f" },
+        dataType: "json",
+        url: "https://www.api.sistema2.com.br/WebApiSae/api/alunomenu?Escola=" + $escola + "&Codigo=" + $codigo + "&Ano=" + vAno + "&Descricao=BOLETIM ESCOLAR",
+        success: function (data) {
+            // Sucesso sem boletim retorna null → permanece oculto
+            if (!data || !data.URL) return;
+
+            var url = data.URL; // armazena a URL do boletim
+
+            $('.boletim').show();
+            $('.boletim').find('a').attr('href', '#').attr('target', '_blank');
+            $('.boletim').off('click').on('click', function (e) {
+                e.preventDefault();
+                abrirBoletim(url);
+            });
         }
-
-        $('.boletim').find('a').attr('href', _href);
+        // erro → mantém oculto
     });
+}
+
+// Abre o boletim (PDF) via url.php. No Android o PDF não abre inline na
+// WebView → usa o visualizador do Google Docs.
+function abrirBoletim(url) {
+    if (!url) return;
+    var link = url;
+    if (/android/i.test(navigator.userAgent)) {
+        var ext = (url.split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
+        if (ext === 'pdf') {
+            link = 'https://docs.google.com/gview?embedded=1&url=' + url;
+        }
+    }
+    window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=${link}`);
 }
 
 function homeClick(event) {
@@ -1640,8 +1670,10 @@ function MenuYba(){
       
       $("#texto-notificacoes").text('Comunicados/Avisos');
       $(".notificacao").off('click').on('click', function (e) { e.preventDefault(); window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/notificacao.php?codescola=${vEscola}&deviceid=${vUniqueID}&pagina=1`); });      
-      $(".boleto").off('click').on('click', boletoClick);      
-      $(".boletim").off('click').on('click', notaClick);
+      $(".boleto").off('click').on('click', boletoClick);
+      // Boletim começa oculto; loadBoletim() o exibe e arma o clique se houver
+      $(".boletim").hide();
+      loadBoletim();
       $(".tarefa").off('click').on('click', tarefaClick);
 //      $(".vejamais").off('click').on('click', cliqueVeja);
       
