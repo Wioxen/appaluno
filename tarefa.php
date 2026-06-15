@@ -311,6 +311,9 @@ $bootJson = json_encode([
             });
 
             grupos.forEach(function (g) {
+                // Sem conteúdo (nem casa nem sala) → não adiciona a data
+                if (!g.casa.length && !g.sala.length) return;
+
                 var label = dataExtenso(g.data);
                 var labelHtml = (label === 'HOJE')
                     ? '<span class="tl-hoje-badge">HOJE</span>'
