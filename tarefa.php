@@ -74,11 +74,15 @@ $bootJson = json_encode([
             position: relative; z-index: 1;
         }
         .hero-icon {
-            width: 44px; height: 44px; background: rgba(255, 255, 255, 0.2); border-radius: 12px;
+            width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); flex-shrink: 0;
+            overflow: hidden; border: 2px solid #fff;
         }
         .hero-icon i { font-size: 22px; color: #fff; }
+        .hero-icon img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .hero-icon.has-foto img { display: block; }
+        .hero-icon.has-foto i { display: none; }
         .hero-title { font-size: 20px; font-weight: 700; line-height: 1.2; margin: 0; }
         .hero-subtitle {
             font-size: 14px; opacity: 0.9; font-weight: 400; line-height: 1.5;
@@ -193,7 +197,10 @@ $bootJson = json_encode([
         <!-- HEADER COM GRADIENTE (padrão yba-compartilha) -->
         <div class="hero-card">
             <div class="hero-header">
-                <div class="hero-icon"><i class="bi bi-journal-text"></i></div>
+                <div class="hero-icon" id="heroIcon">
+                    <i class="bi bi-journal-text"></i>
+                    <img alt="" onerror="this.style.display='none'" />
+                </div>
                 <h1 class="hero-title">AGENDA</h1>
             </div>
             <div class="hero-subtitle">Tarefas de casa e de sala das disciplinas.</div>
@@ -321,10 +328,9 @@ $bootJson = json_encode([
                 var $item = $(
                     '<div class="tl-item">' +
                         '<div class="tl-dot">' +
-                            '<i class="bi bi-person-fill"></i>' +
-                            '<img class="tl-foto" alt="" onerror="this.style.display=\'none\'" />' +
+                            '<i class="bi bi-calendar3"></i>' +
                         '</div>' +
-                        '<div class="tl-date"><i class="bi bi-calendar3"></i>' + labelHtml + '</div>' +
+                        '<div class="tl-date">' + labelHtml + '</div>' +
                         '<div class="tl-card">' +
                             montarCollapse('bi-house-door-fill', 'CASA', g.casa) +
                             montarCollapse('bi-easel2-fill', 'SALA', g.sala) +
@@ -400,10 +406,8 @@ $bootJson = json_encode([
         // ===== Foto do aluno (mesma para todas as tarefas) =====
         function aplicarFotoAluno() {
             if (!fotoAluno) return;
-            $('.tl-dot').each(function () {
-                $(this).find('img').attr('src', fotoAluno);
-                $(this).addClass('has-foto');
-            });
+            $('#heroIcon img').attr('src', fotoAluno);
+            $('#heroIcon').addClass('has-foto');
         }
         function carregarFotoAluno() {
             $.ajax({
