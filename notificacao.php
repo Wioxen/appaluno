@@ -332,14 +332,23 @@ $bootJson = json_encode([
             var link = $(this).attr('data-link');
             if (!link) return;
 
-            // No Android, abre pelo visualizador do Google. Imagens usam o viewer do
-            // Drive; demais arquivos (PDF etc.) usam o viewer do Docs.
+            // No Android: imagem abre no visualizador NATIVO via Android Intent;
+            // demais arquivos (PDF etc.) abrem pelo visualizador do Google Docs.
             if (/android/i.test(navigator.userAgent)) {
                 var ext = (link.split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
-                var viewer = /^(jpg|jpeg|png|gif|bmp|webp|heic|heif|tif|tiff|svg)$/.test(ext)
-                    ? 'https://drive.google.com/gview?embedded=1&url='
-                    : 'https://docs.google.com/gview?embedded=1&url=';
-                link = viewer + link;
+                var mimes = { jpg:'jpeg', jpeg:'jpeg', png:'png', gif:'gif', bmp:'bmp',
+                              webp:'webp', heic:'heic', heif:'heif', tif:'tiff', tiff:'tiff', svg:'svg+xml' };
+                if (mimes[ext]) {
+                    // Abre como imagem nativa (galeria/visualizador do Android)
+                    var esquema  = /^http:\/\//i.test(link) ? 'http' : 'https';
+                    var semEsq   = link.replace(/^https?:\/\//i, '');
+                    var intentUrl = 'intent://' + semEsq +
+                        '#Intent;scheme=' + esquema +
+                        ';action=android.intent.action.VIEW;type=image/' + mimes[ext] + ';end';
+                    window.location.href = intentUrl;
+                    return;
+                }
+                link = 'https://docs.google.com/gview?embedded=1&url=' + link;
             }
 
             window.open(link, '_blank');
