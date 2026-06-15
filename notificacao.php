@@ -332,9 +332,14 @@ $bootJson = json_encode([
             var link = $(this).attr('data-link');
             if (!link) return;
 
-            // No Android, abre sempre pelo visualizador do Google Docs.
+            // No Android, abre pelo visualizador do Google. Imagens usam o viewer do
+            // Drive; demais arquivos (PDF etc.) usam o viewer do Docs.
             if (/android/i.test(navigator.userAgent)) {
-                link = 'https://docs.google.com/gview?embedded=1&url=' + link;
+                var ext = (link.split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
+                var viewer = /^(jpg|jpeg|png|gif|bmp|webp|heic|heif|tif|tiff|svg)$/.test(ext)
+                    ? 'https://drive.google.com/gview?embedded=1&url='
+                    : 'https://docs.google.com/gview?embedded=1&url=';
+                link = viewer + link;
             }
 
             window.open(link, '_blank');
