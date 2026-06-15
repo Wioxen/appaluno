@@ -84,20 +84,28 @@ $bootJson = json_encode([
         /* Timeline */
         .timeline { position: relative; margin: 8px 0 0; padding-left: 48px; }
         .timeline::before {
-            content: ""; position: absolute; left: 17px; top: 6px; bottom: 6px;
+            content: ""; position: absolute; left: 19px; top: 6px; bottom: 6px;
             width: 2px; background: linear-gradient(180deg, var(--brand), rgba(40,167,168,.25));
         }
         .tl-item { position: relative; margin-bottom: 18px; }
         .tl-dot {
             position: absolute; left: -48px; top: 2px;
-            width: 36px; height: 36px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 10px;
             background: var(--brand); border: 2px solid #fff;
             box-shadow: 0 0 0 2px rgba(40,167,168,.25);
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; z-index: 1;
         }
         .tl-dot i { color: #fff; font-size: 16px; }
-        .tl-dot img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .tl-dot img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            aspect-ratio: 40 / 40;
+            border: 0;
+            text-align: center;
+            user-select: none; -webkit-user-select: none;
+            display: none;
+        }
         .tl-dot.has-foto img { display: block; }
         .tl-dot.has-foto i { display: none; }
         .tl-date { font-size: 12.5px; color: var(--brand-dark); font-weight: 600; margin-bottom: 6px; }
@@ -151,7 +159,7 @@ $bootJson = json_encode([
         <div class="hero-card">
             <div class="hero-header">
                 <div class="hero-icon"><i class="bi bi-bell-fill"></i></div>
-                <h1 class="hero-title">Notificações</h1>
+                <h1 class="hero-title">COMUNICADOS/AVISOS</h1>
             </div>
             <div class="hero-subtitle">Acompanhe os comunicados e avisos mais recentes da escola.</div>
         </div>
