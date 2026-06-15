@@ -221,8 +221,7 @@ $bootJson = json_encode([
         }
 
         function montarUrlBoleto(b) {
-            return 'https://alunoapp.sistema2.com.br/url.php?codescola=' + BOOT.codescola +
-                   '&url=' + REDIRECT + '?codEscola=' + BOOT.codescola +
+            return REDIRECT + '?codEscola=' + BOOT.codescola +
                    '&codigo=' + BOOT.codigo + '&token=' + (b.token || '');
         }
 
