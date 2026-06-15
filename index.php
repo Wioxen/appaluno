@@ -2150,17 +2150,29 @@ $paramsJson   = json_encode($params, $jsonFlags);
         $(document).on('click', '.aluno-item', function (e) {
             var $item  = $(this);
             var codigo = $item.data('codigo');
+            var escola = $item.data('escola');
             var idx    = parseInt($item.data('index'), 10);
             closeSidebar();
 
-            // Busca o objeto do aluno: primeiro pelo índice, depois pelo código.
+            // Confere se um objeto do array corresponde ao item clicado (Codigo + Escola).
+            function bate(obj) {
+                if (!obj) return false;
+                if (String(obj.Codigo) !== String(codigo)) return false;
+                // Só exige Escola quando o item tem essa informação (evita falso negativo).
+                if (escola !== undefined && escola !== '' && String(obj.Escola) !== String(escola)) return false;
+                return true;
+            }
+
+            // Busca o objeto do aluno. O índice só é aceito se realmente casar com o
+            // item clicado — após a deduplicação da lista o data-index pode não
+            // corresponder ao window.$alunos (que mantém as duplicatas).
             var aluno = null;
             if (window.$alunos && window.$alunos.length) {
-                if (!isNaN(idx) && window.$alunos[idx]) {
+                if (!isNaN(idx) && bate(window.$alunos[idx])) {
                     aluno = window.$alunos[idx];
                 } else {
                     for (var i = 0; i < window.$alunos.length; i++) {
-                        if (String(window.$alunos[i].Codigo) === String(codigo)) {
+                        if (bate(window.$alunos[i])) {
                             aluno = window.$alunos[i];
                             break;
                         }
