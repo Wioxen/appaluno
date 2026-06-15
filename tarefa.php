@@ -117,6 +117,11 @@ $bootJson = json_encode([
             display: inline-flex; align-items: center; gap: 6px;
         }
         .tl-date i { font-size: 15px; }
+        .tl-hoje-badge {
+            display: inline-block; font-size: 12px; font-weight: 700; line-height: 1;
+            padding: 4px 11px; border-radius: 999px; letter-spacing: .5px;
+            background: #ffd84d; color: #5c4500;
+        }
         .tl-card {
             background: #ffffff; border: 1px solid #ececec; border-radius: 12px;
             padding: 2px 16px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
@@ -306,13 +311,17 @@ $bootJson = json_encode([
             });
 
             grupos.forEach(function (g) {
+                var label = dataExtenso(g.data);
+                var labelHtml = (label === 'HOJE')
+                    ? '<span class="tl-hoje-badge">HOJE</span>'
+                    : escapeHtml(label);
                 var $item = $(
                     '<div class="tl-item">' +
                         '<div class="tl-dot">' +
                             '<i class="bi bi-person-fill"></i>' +
                             '<img class="tl-foto" alt="" onerror="this.style.display=\'none\'" />' +
                         '</div>' +
-                        '<div class="tl-date"><i class="bi bi-calendar3"></i>' + escapeHtml(dataExtenso(g.data)) + '</div>' +
+                        '<div class="tl-date"><i class="bi bi-calendar3"></i>' + labelHtml + '</div>' +
                         '<div class="tl-card">' +
                             montarCollapse('bi-house-door-fill', 'CASA', g.casa) +
                             montarCollapse('bi-easel2-fill', 'SALA', g.sala) +

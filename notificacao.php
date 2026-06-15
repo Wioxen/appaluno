@@ -108,7 +108,16 @@ $bootJson = json_encode([
         }
         .tl-dot.has-foto img { display: block; }
         .tl-dot.has-foto i { display: none; }
-        .tl-date { font-size: 12.5px; color: var(--brand-dark); font-weight: 600; margin-bottom: 6px; }
+        .tl-date {
+            font-size: 13px; color: var(--brand-dark); font-weight: 600; margin-bottom: 6px;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .tl-date i { font-size: 15px; }
+        .tl-hoje-badge {
+            display: inline-block; font-size: 12px; font-weight: 700; line-height: 1;
+            padding: 4px 11px; border-radius: 999px; letter-spacing: .5px;
+            background: #ffd84d; color: #5c4500;
+        }
         .tl-card {
             background: #ffffff; border: 1px solid #ececec; border-radius: 12px;
             padding: 14px 16px; box-shadow: 0 1px 3px rgba(0,0,0,.05);
@@ -209,6 +218,21 @@ $bootJson = json_encode([
             $s.html((spinner ? '<div class="spinner"></div>' : '') + escapeHtml(msg)).show();
         }
 
+        var SEMANAS = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+        var MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+
+        // "dd/MM/yyyy ..." → "HOJE" se for a data corrente; senão a data por extenso
+        function dataExtenso(dataStr) {
+            var ts = parseData(dataStr);
+            if (!ts) return (dataStr || '').split(' ')[0];
+            var d = new Date(ts);
+            var h = new Date();
+            if (d.getFullYear() === h.getFullYear() && d.getMonth() === h.getMonth() && d.getDate() === h.getDate()) {
+                return 'HOJE';
+            }
+            return SEMANAS[d.getDay()] + ', ' + d.getDate() + ' de ' + MESES[d.getMonth()] + ' de ' + d.getFullYear();
+        }
+
         function render(lista) {
             var $tl = $('#timeline').empty();
 
@@ -217,13 +241,17 @@ $bootJson = json_encode([
 
             lista.forEach(function (n) {
                 var temLink = n.Link && String(n.Link).trim() !== '';
+                var label = dataExtenso(n.Data);
+                var labelHtml = (label === 'HOJE')
+                    ? '<span class="tl-hoje-badge">HOJE</span>'
+                    : escapeHtml(label);
                 var $item = $(
                     '<div class="tl-item">' +
                         '<div class="tl-dot" data-codigo="' + escapeHtml(n.Codigo) + '">' +
                             '<i class="bi bi-person-fill"></i>' +
                             '<img class="tl-foto" alt="" onerror="this.style.display=\'none\'" />' +
                         '</div>' +
-                        '<div class="tl-date">' + escapeHtml(n.Data) + '</div>' +
+                        '<div class="tl-date"><i class="bi bi-calendar3"></i>' + labelHtml + '</div>' +
                         '<div class="tl-card">' +
                             '<p class="tl-title">' + escapeHtml(n.Titulo) + '</p>' +
                             '<p class="tl-text">' + escapeHtml(String(n.Texto || '').trim()) + '</p>' +
