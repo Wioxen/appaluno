@@ -332,10 +332,8 @@ $bootJson = json_encode([
             var link = $(this).attr('data-link');
             if (!link) return;
 
-            // No Android o PDF não abre inline na WebView → usa o visualizador do Google Docs.
-            // Extensão checada ignorando query string/âncora.
-            var ext = (link.split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
-            if (/android/i.test(navigator.userAgent) && ext === 'pdf') {
+            // No Android, abre sempre pelo visualizador do Google Docs.
+            if (/android/i.test(navigator.userAgent)) {
                 link = 'https://docs.google.com/gview?embedded=1&url=' + link;
             }
 

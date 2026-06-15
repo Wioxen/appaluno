@@ -2023,6 +2023,17 @@ $paramsJson   = json_encode($params, $jsonFlags);
             if (!alunos && typeof window.$alunos !== 'undefined') alunos = window.$alunos;
             alunos = alunos || [];
 
+            // Evita replicar o mesmo aluno na lista (mesmo Escola+Codigo aparecendo
+            // mais de uma vez no array). Mantém a primeira ocorrência.
+            var vistosAlunos = {};
+            alunos = alunos.filter(function (a) {
+                if (!a || a.Codigo == null) return true;
+                var chave = String(a.Escola == null ? '' : a.Escola) + '|' + String(a.Codigo);
+                if (vistosAlunos[chave]) return false;
+                vistosAlunos[chave] = true;
+                return true;
+            });
+
             $list.empty();
 
             // Atualiza textos do header (contagem + label singular/plural)
