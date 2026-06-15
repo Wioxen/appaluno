@@ -1101,10 +1101,11 @@ function ultima_notificacao() {
                 'Você tem notificações que ainda não foram visualizadas.<br><br>Deseja visualizar agora?</div>'
             );
 
+            var corBtn = $("body > div.wrapper > header > nav").css('background-color') || '#28a7a8';
             $('.modal-footer2').show().html(
                 '<div class="container" style="display:flex;gap:12px;justify-content:center;padding-bottom:6px;">' +
                 '<button id="btnNotNao" class="btn btn-default" style="min-width:120px;font-weight:bold;">Não</button>' +
-                '<button id="btnNotSim" class="btn bg-' + $('#cor').val() + '" style="min-width:120px;font-weight:bold;color:#fff;">Sim</button>' +
+                '<button id="btnNotSim" class="btn" style="min-width:120px;font-weight:bold;color:#fff;background-color:' + corBtn + ';border-color:' + corBtn + ';">Sim</button>' +
                 '</div>'
             );
 
