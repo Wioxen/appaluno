@@ -376,43 +376,7 @@ function zMesExt(zdata) {
 function tarefaClick(e) {
     e.preventDefault();
 
-    $('#modalfoto').attr('src', $('#imgfoto').attr('src'));
-    $('.modal-header2').addClass('bg-' + $("#cor").val());
-    $('.modal-footer2').show();
-    $('.modal-footer2').html('<div class="row container"><button class="btn btn-block bg-' + $('#cor').val() + '" id="btnMaisTarefa" style="margin-botom:3em;background-color:' + $("body > div.wrapper > header > nav").css('background-color') + ';color:white;font-weight:bold">VER MAIS</button></div>');
-    $('#btnMaisTarefa').attr("data-loading-text", "<i class='fa fa-circle-o-notch fa-spin'></i> Processando");
-    $('#btnMaisTarefa').off('click').on('click', function (e) {
-        e.preventDefault();
-        $thisButton = $(this);
-        $pagina++;
-        $thisButton.button('loading');
-        tarefa();
-    });
-    $('.modal-body2').css('height', 'calc(100% - 135px)');
-    $('.modal-body2').css('overflow-x', 'hidden');
-    $('#myModal .modal-body').html("<div class='row' style='margin: 0px; margin-top: 10px; margin-left: 0px;'><div id='content' style='padding: 5px;'><ul id='timeline' class='timeline' style='margin: 0px;'><ul></div></div>");
-
-    aguarda();
-
-    $('#modaltitulo').text($(this).find('strong').text());
-
-    if (parseInt($(".fotoAtual").attr("data-escola")) === 80) {
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: { 'Escola': $(".fotoAtual").attr("data-escola"), 'Codigo': $(".fotoAtual").attr("data-codigo") },
-            url: "https://www.api.sistema2.com.br/WebApiSae/Bloqueado",
-            success: function (data) {
-                if (data.bloqueado === true) {
-                    exibeErro080();
-                } else {
-                    $pagina = 1;
-                    tarefa();
-                }
-            }
-        });
-    } else {
-        $pagina = 1;
-        tarefa();
-    }
+    var vEscola = $(".fotoAtual").attr("data-escola");
+    var vCodigo = $(".fotoAtual").attr("data-codigo");
+    window.open(`https://alunoapp.sistema2.com.br/url.php?codescola=${vEscola}&url=https://alunoapp.sistema2.com.br/tarefa.php?codescola=${vEscola}&codigo=${vCodigo}&pagina=1`);
 }
