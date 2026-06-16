@@ -237,7 +237,8 @@ $bootJson = json_encode([
                 return { label: 'Vencido há ' + dias + (dias === 1 ? ' dia' : ' dias'), cls: 'st-vencido' };
             }
             if (venc.getTime() === hoje.getTime()) return { label: 'Vence hoje', cls: 'st-hoje' };
-            return { label: 'Em aberto', cls: 'st-aberto' };
+            var dias = Math.round((venc.getTime() - hoje.getTime()) / 86400000);
+            return { label: 'Vence em ' + dias + (dias === 1 ? ' dia' : ' dias'), cls: 'st-aberto' };
         }
 
         function render(lista) {
