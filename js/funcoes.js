@@ -1,12 +1,4 @@
-﻿function encode_utf8(s) {
-    return unescape(encodeURIComponent(s));
-}
-
-function decode_utf8(s) {
-    return decodeURIComponent(escape(s));
-}
-
-function sortList() {
+﻿function sortList() {
     var $list = $("#id01");
 
     $list.children().detach().sort(function (a, b) {
@@ -118,47 +110,4 @@ function zMesExtenso(zDia) {
     }
 }
 
-function GetTodayDate() {
-    var tdate = new Date();
-    var dd = tdate.getDate(); //yields day
-    var MM = tdate.getMonth(); //yields month
-    var yyyy = tdate.getFullYear(); //yields year
-    var currentDate = dd + "-" + (MM + 1) + "-" + yyyy;
-
-    return currentDate;
-}
-function GetTodayDate1() {
-    var tdate = new Date();
-    var dd = tdate.getDate(); //yields day
-    var MM = tdate.getMonth(); //yields month
-    var yyyy = tdate.getFullYear(); //yields year
-
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (MM < 10) {
-        MM = (MM + 1);
-        MM = '0' + MM;
-    }
-    var currentDate = yyyy + "-" + MM + "-" + dd;
-
-    return currentDate;
-}
-
-function getUrlParameter(search_param) {
-    // get string of paramters
-    var url_part = window.location.search.substring(1);
-    // decode string
-    var decoded_url_part = decodeURIComponent(url_part);
-    // split on the basis of "&"
-    var params = decoded_url_part.split('&');
-
-    //iterate throw each param and find if it matches required component
-    for (i = 0; i < params.length; i++) {
-        param = params[i].split('=');
-        if (search_param == param[0]) {
-            return param[1];
-        }
-    }
-    // console.log(splitted);
-}	
+	

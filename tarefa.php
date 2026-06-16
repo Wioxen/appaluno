@@ -188,6 +188,16 @@ $bootJson = json_encode([
         }
         .pager button:disabled { opacity: .4; cursor: not-allowed; border-color: #ccc; color: #999; }
         .pager .page-ind { font-size: 14px; color: #555; min-width: 84px; text-align: center; }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed; left: 50%; bottom: 78px; transform: translateX(-50%) translateY(10px);
+            background: #1a1a1a; color: #fff; padding: 11px 18px; border-radius: 10px;
+            font-size: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.25); opacity: 0;
+            transition: opacity .25s, transform .25s; z-index: 9999; pointer-events: none;
+            max-width: 90%; text-align: center;
+        }
+        .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -222,6 +232,8 @@ $bootJson = json_encode([
         </button>
     </div>
 
+    <div class="toast-msg" id="toast"></div>
+
     <script>
         var BOOT = <?php echo $bootJson; ?>;
         var API_BASE     = 'https://api.sistema2.com.br/WebApiSaeCore/api/';
@@ -236,6 +248,7 @@ $bootJson = json_encode([
         var temProxima  = false;
         var carregando  = false;
         var fotoAluno   = null; // url da foto do aluno (mesma p/ todas as tarefas)
+        var tamPagina   = 0;    // tamanho de página (definido na 1ª carga) p/ saber se há próxima
 
         // Converte "dd/MM/yyyy HH:mm:ss" em timestamp para ordenar decrescente
         function parseData(s) {
@@ -249,6 +262,13 @@ $bootJson = json_encode([
             return String(s == null ? '' : s)
                 .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        var toastTimer = null;
+        function avisar(msg) {
+            var $t = $('#toast').text(msg).addClass('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { $t.removeClass('show'); }, 2500);
         }
 
         function setState(msg, spinner) {
@@ -355,9 +375,19 @@ $bootJson = json_encode([
             $('#btnNext').prop('disabled', carregando || !temProxima);
         }
 
+        // Página vazia ao avançar → não muda de página, mantém o conteúdo atual
+        function semMaisRegistros(anterior) {
+            paginaAtual = anterior;
+            temProxima = false;
+            setState('', false);
+            $('#timeline').show();
+            avisar('Não há mais tarefas.');
+        }
+
         function carregar(pagina) {
             if (carregando) return;
             carregando = true;
+            var anterior = paginaAtual;
             $('#timeline').hide();
             setState('Carregando tarefas...', true);
             atualizarPager();
@@ -373,25 +403,29 @@ $bootJson = json_encode([
                 timeout: 20000
             })
             .done(function (resp) {
-                paginaAtual = pagina;
                 var lista = Array.isArray(resp) ? resp
                           : (resp && Array.isArray(resp.data) ? resp.data : []);
 
                 if (lista.length === 0) {
-                    temProxima = false;
-                    setState(pagina > 1 ? 'Não há mais tarefas.' : 'Nenhuma tarefa encontrada.', false);
-                } else {
-                    temProxima = true; // pode haver mais páginas
-                    setState('', false);
-                    render(lista);
-                    carregarDocs(lista);
-                    window.scrollTo(0, 0);
+                    if (pagina > 1) { semMaisRegistros(anterior); }
+                    else { paginaAtual = pagina; temProxima = false; setState('Nenhuma tarefa encontrada.', false); }
+                    return;
                 }
+
+                // O tamanho de página é definido pela 1ª carga; se vier menos, é a última.
+                if (!tamPagina) { tamPagina = lista.length; }
+
+                paginaAtual = pagina;
+                temProxima = lista.length >= tamPagina; // página cheia → pode haver próxima
+                setState('', false);
+                render(lista);
+                carregarDocs(lista);
+                window.scrollTo(0, 0);
             })
             .fail(function () {
                 // 404 = sem tarefas nesta página
-                temProxima = false;
-                setState(pagina > 1 ? 'Não há mais tarefas.' : 'Nenhuma tarefa encontrada.', false);
+                if (pagina > 1) { semMaisRegistros(anterior); }
+                else { paginaAtual = pagina; temProxima = false; setState('Nenhuma tarefa encontrada.', false); }
             })
             .always(function () {
                 carregando = false;

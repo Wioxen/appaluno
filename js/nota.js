@@ -1,9 +1,4 @@
-﻿function abre_nota() {
-    $('#exampleModal1').modal('hide');
-    $('#myModal').modal('show');
-}
-
-function notaClick(e) {
+﻿function notaClick(e) {
     e.preventDefault();
 
     aguarda();

@@ -231,35 +231,6 @@ $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
             animation: fadeIn 0.3s ease;
         }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        /* ===== HEADER DE CONTAGEM ===== */
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px 8px 20px;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .list-header-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-
-        .badge-count {
-            background-color: var(--primary-light);
-            color: var(--primary);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
         /* ===== ITENS DA LISTA ===== */
         .item-list {
             padding: 4px 0 8px 0;

@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260615a';
+$ASSET_VERSION = '20260616a';
 
 // ===== Rotina de entrada (antes ficava no open.php) =====
 // Lê os parâmetros do dispositivo, do jeito que vêm na URL.
@@ -66,8 +66,6 @@ $paramsJson   = json_encode($params, $jsonFlags);
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="bower_components/Ionicons/css/ionicons.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -109,121 +107,6 @@ $paramsJson   = json_encode($params, $jsonFlags);
             .modal-fullscreen .modal-body {
                 overflow-y: auto
             }
-
-        @media (max-width:575.98px) {
-            .modal-fullscreen-sm-down {
-                width: 100vw;
-                max-width: none;
-                height: 100%;
-                margin: 0
-            }
-
-                .modal-fullscreen-sm-down .modal-content {
-                    height: 100%;
-                    border: 0;
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-sm-down .modal-footer, .modal-fullscreen-sm-down .modal-header {
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-sm-down .modal-body {
-                    overflow-y: auto
-                }
-        }
-
-        @media (max-width:767.98px) {
-            .modal-fullscreen-md-down {
-                width: 100vw;
-                max-width: none;
-                height: 100%;
-                margin: 0
-            }
-
-                .modal-fullscreen-md-down .modal-content {
-                    height: 100%;
-                    border: 0;
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-md-down .modal-footer, .modal-fullscreen-md-down .modal-header {
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-md-down .modal-body {
-                    overflow-y: auto
-                }
-        }
-
-        @media (max-width:991.98px) {
-            .modal-fullscreen-lg-down {
-                width: 100vw;
-                max-width: none;
-                height: 100%;
-                margin: 0
-            }
-
-                .modal-fullscreen-lg-down .modal-content {
-                    height: 100%;
-                    border: 0;
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-lg-down .modal-footer, .modal-fullscreen-lg-down .modal-header {
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-lg-down .modal-body {
-                    overflow-y: auto
-                }
-        }
-
-        @media (max-width:1199.98px) {
-            .modal-fullscreen-xl-down {
-                width: 100vw;
-                max-width: none;
-                height: 100%;
-                margin: 0
-            }
-
-                .modal-fullscreen-xl-down .modal-content {
-                    height: 100%;
-                    border: 0;
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-xl-down .modal-footer, .modal-fullscreen-xl-down .modal-header {
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-xl-down .modal-body {
-                    overflow-y: auto
-                }
-        }
-
-        @media (max-width:1399.98px) {
-            .modal-fullscreen-xxl-down {
-                width: 100vw;
-                max-width: none;
-                height: 100%;
-                margin: 0
-            }
-
-                .modal-fullscreen-xxl-down .modal-content {
-                    height: 100%;
-                    border: 0;
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-xxl-down .modal-footer, .modal-fullscreen-xxl-down .modal-header {
-                    border-radius: 0
-                }
-
-                .modal-fullscreen-xxl-down .modal-body {
-                    overflow-y: auto
-                }
-        }
     </style>
 
     <!-- ===== Estilo do loading (mesmo padrão do loading.php) ===== -->
@@ -576,15 +459,6 @@ $paramsJson   = json_encode($params, $jsonFlags);
             opacity: 1 !important;
         }
 
-        /* Botão na navbar-left (ao lado do home) — visibilidade FORÇADA */
-        .main-header .navbar-left .students-li {
-            display: inline-flex !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-            float: none !important;
-            position: relative !important;
-        }
-
         .main-header .navbar-left a.students-btn,
         .main-header .navbar-left .students-btn {
             display: inline-flex !important;
@@ -904,9 +778,6 @@ $paramsJson   = json_encode($params, $jsonFlags);
             background: #f39c12;
             border: 2px solid #ffffff;
             display: none;
-        }
-        .footer-btn__dot.has-notif {
-            display: block;
         }
 
         /* Texto/label */
@@ -1934,8 +1805,6 @@ $paramsJson   = json_encode($params, $jsonFlags);
     <script src="js/tarefa.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/cotidiano.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/ocorrencia.js?v=<?php echo $ASSET_VERSION; ?>"></script>
-    <script src="js/notificacao.js?v=<?php echo $ASSET_VERSION; ?>"></script>
-    <script src="js/boletim.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/nota.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/boleto.js?v=<?php echo $ASSET_VERSION; ?>"></script>
     <script src="js/alunos.js?v=<?php echo $ASSET_VERSION; ?>"></script>

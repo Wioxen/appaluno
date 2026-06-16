@@ -1,21 +1,3 @@
-function copiar_linha_digitavel(e) {
-    e.preventDefault();
-
-    var sampleTextarea = document.createElement("textarea");
-    document.body.appendChild(sampleTextarea);
-    sampleTextarea.value = $(this).attr('data-ld');
-    sampleTextarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(sampleTextarea);
-
-    $.toast({
-        text: "Linha digitável copiada com sucesso",
-        hideAfter: 3000,
-        position: 'bottom-center',
-        showHideTransition: 'fade'
-    });
-}
-
 function boletoClick(event) {
     if (event) event.preventDefault();
 
