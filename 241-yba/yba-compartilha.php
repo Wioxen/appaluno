@@ -1,4 +1,5 @@
 <?php
+// Deploy: 2026-07-20 v2 (Narrativas e Vivencias por semestre)
 // Headers para evitar cache (importante para WebView do Delphi FMX)
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
