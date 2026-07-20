@@ -16,8 +16,17 @@ $debug    = isset($_GET['debug'])    ? true : false;
 $nome = isset($_GET['nome']) ? htmlspecialchars($_GET['nome']) : '';
 
 // URLs dos PDFs individuais
-$urlNarrativasPDF = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . "/" . $nome . ".pdf";
-$urlNarrativas    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlNarrativasPDF;
+// Narrativas Individuais: uma para cada semestre (ex.: 2026.1 e 2026.2)
+$urlNarrativasPDF_1 = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . ".1/" . $nome . ".pdf";
+$urlNarrativas_1    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlNarrativasPDF_1;
+$urlNarrativasPDF_2 = "https://digite1.websiteseguro.com/seinet/241-YBA/NarrativasIndividuais" . $ano . ".2/" . $nome . ".pdf";
+$urlNarrativas_2    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlNarrativasPDF_2;
+
+// Vivências Semestrais: uma para cada semestre (ex.: 2026.1 e 2026.2)
+$urlVivenciasPDF_1 = "https://digite1.websiteseguro.com/seinet/241-YBA/VivenciasSemestrais" . $ano . ".1/" . $nome . ".pdf";
+$urlVivencias_1    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlVivenciasPDF_1;
+$urlVivenciasPDF_2 = "https://digite1.websiteseguro.com/seinet/241-YBA/VivenciasSemestrais" . $ano . ".2/" . $nome . ".pdf";
+$urlVivencias_2    = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlVivenciasPDF_2;
 $urlFichaPDF      = "https://digite1.websiteseguro.com/seinet/241-YBA/FichaDeIndicadoresIndividuais" . $ano . "/" . $nome . ".pdf";
 $urlFicha         = "https://drive.google.com/viewerng/viewer?embedded=true&url=" . $urlFichaPDF;
 
@@ -418,7 +427,10 @@ $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
         <strong>nome:</strong> <?php echo $nome; ?><br>
         <strong>ano:</strong> <?php echo $ano; ?><br>
         <strong>op:</strong> <?php echo $op; ?><br>
-        <strong>URL Narrativas:</strong> <a href="<?php echo $urlNarrativas; ?>" target="_blank"><?php echo $urlNarrativas; ?></a><br>
+        <strong>URL Narrativas <?php echo $ano; ?>.1:</strong> <a href="<?php echo $urlNarrativas_1; ?>" target="_blank"><?php echo $urlNarrativas_1; ?></a><br>
+        <strong>URL Narrativas <?php echo $ano; ?>.2:</strong> <a href="<?php echo $urlNarrativas_2; ?>" target="_blank"><?php echo $urlNarrativas_2; ?></a><br>
+        <strong>URL Vivências <?php echo $ano; ?>.1:</strong> <a href="<?php echo $urlVivencias_1; ?>" target="_blank"><?php echo $urlVivencias_1; ?></a><br>
+        <strong>URL Vivências <?php echo $ano; ?>.2:</strong> <a href="<?php echo $urlVivencias_2; ?>" target="_blank"><?php echo $urlVivencias_2; ?></a><br>
         <strong>URL Ficha:</strong> <a href="<?php echo $urlFicha; ?>" target="_blank"><?php echo $urlFicha; ?></a>
     </div>
     <?php endif; ?>
@@ -451,44 +463,56 @@ $bearerToken = "a6db2e47da0e40e8be13aaa93287b14f";
 
     <?php else: ?>
 
-    <!-- 1. Narrativas Individuais -->
+    <!-- 1. Narrativas Individuais - 1º Semestre -->
     <div class="card-yba">
-        <a href="<?php echo $urlNarrativas; ?>" target="_blank" rel="noopener" class="btn-narrativa">
+        <a href="<?php echo $urlNarrativas_1; ?>" target="_blank" rel="noopener" class="btn-narrativa">
             <div class="card-title-yba">
                 <div class="icon-wrapper">
                     <i class="bi bi-file-earmark-person-fill"></i>
                 </div>
-                <span>Narrativas Individuais</span>
+                <span>Narrativas Individuais - <?php echo $ano; ?>.1</span>
             </div>
             <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
         </a>
     </div>
 
-    <!-- 2. Vivências Semestrais -->
+    <!-- 1. Narrativas Individuais - 2º Semestre -->
     <div class="card-yba">
-        <div class="card-header-yba"
-             data-bs-toggle="collapse"
-             data-bs-target="#vivenciasCollapse"
-             aria-expanded="false"
-             aria-controls="vivenciasCollapse"
-             data-tipo="3"
-             data-loaded="false">
+        <a href="<?php echo $urlNarrativas_2; ?>" target="_blank" rel="noopener" class="btn-narrativa">
+            <div class="card-title-yba">
+                <div class="icon-wrapper">
+                    <i class="bi bi-file-earmark-person-fill"></i>
+                </div>
+                <span>Narrativas Individuais - <?php echo $ano; ?>.2</span>
+            </div>
+            <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
+        </a>
+    </div>
+
+    <!-- 2. Vivências Semestrais - 1º Semestre -->
+    <div class="card-yba">
+        <a href="<?php echo $urlVivencias_1; ?>" target="_blank" rel="noopener" class="btn-narrativa">
             <div class="card-title-yba">
                 <div class="icon-wrapper">
                     <i class="bi bi-journal-richtext"></i>
                 </div>
-                <span>Vivências Semestrais</span>
+                <span>Vivências Semestrais - <?php echo $ano; ?>.1</span>
             </div>
-            <i class="bi bi-chevron-down chevron"></i>
-        </div>
-        <div id="vivenciasCollapse" class="collapse">
-            <div class="item-list" id="vivenciasContent">
-                <div class="loading">
-                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-                    Carregando...
+            <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
+        </a>
+    </div>
+
+    <!-- 2. Vivências Semestrais - 2º Semestre -->
+    <div class="card-yba">
+        <a href="<?php echo $urlVivencias_2; ?>" target="_blank" rel="noopener" class="btn-narrativa">
+            <div class="card-title-yba">
+                <div class="icon-wrapper">
+                    <i class="bi bi-journal-richtext"></i>
                 </div>
+                <span>Vivências Semestrais - <?php echo $ano; ?>.2</span>
             </div>
-        </div>
+            <i class="bi bi-box-arrow-up-right btn-narrativa-icon"></i>
+        </a>
     </div>
 
     <!-- 3. Percursos Investigativos -->
