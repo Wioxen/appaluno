@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20260616a';
+$ASSET_VERSION = '20261028b';
 
 // ===== Rotina de entrada (antes ficava no open.php) =====
 // Lê os parâmetros do dispositivo, do jeito que vêm na URL.
@@ -1983,6 +1983,16 @@ $paramsJson   = json_encode($params, $jsonFlags);
             }
 
             $list.html(html);
+
+            // Substitui o avatar pela foto da API fotoaluno (mesma do portal SEINET)
+            if (typeof window.buscarFotoAluno === 'function') {
+                $list.find('.aluno-item').each(function () {
+                    var $item = $(this);
+                    window.buscarFotoAluno($item.attr('data-escola'), $item.attr('data-codigo'), function (url) {
+                        $item.find('.aluno-avatar').html('<img src="' + escapeHtml(url) + '" alt="" onerror="this.remove()" />');
+                    });
+                });
+            }
         };
 
         // Abre a sidebar — handler delegado + direto, para máxima compatibilidade

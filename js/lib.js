@@ -34,6 +34,41 @@ function normalizarUrlFoto(url) {
     return u;
 }
 
+/**
+ * Busca a foto atual do aluno na API fotoaluno (mesma fonte do portal SEINET).
+ * O campo Foto da API appaluno pode vir vazio/desatualizado quando a foto é
+ * cadastrada pelo portal. Chama callback(url) só quando houver foto.
+ * Cacheia por Escola|Codigo — banner e sidebar compartilham a mesma consulta.
+ */
+var _fotoAlunoCache = {};
+function buscarFotoAluno(escola, codigo, callback) {
+    var chave = String(escola) + '|' + String(codigo);
+    if (!_fotoAlunoCache[chave]) {
+        _fotoAlunoCache[chave] = $.ajax({
+            url: 'https://api.sistema2.com.br/WebApiSae/api/fotoaluno',
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer a6db2e47da0e40e8be13aaa93287b14f' },
+            data: { Escola: escola, Codigo: codigo },
+            dataType: 'json',
+            cache: false,
+            timeout: 15000
+        }).then(function (resp) {
+            return (resp && resp.Foto) ? 'https://digite1.websiteseguro.com/fotoaluno/' + resp.Foto : null;
+        });
+        // Em caso de falha, libera para tentar de novo na próxima chamada
+        _fotoAlunoCache[chave].fail(function () { delete _fotoAlunoCache[chave]; });
+    }
+    _fotoAlunoCache[chave].done(function (url) { if (url) callback(url); });
+}
+
+function carregarFotoAluno(escola, codigo) {
+    buscarFotoAluno(escola, codigo, function (url) {
+        // Ignora a resposta se o usuário já trocou de aluno nesse meio tempo
+        if (String($('.fotoAtual').first().attr('data-codigo')) !== String(codigo)) return;
+        $('.fotoAtual').attr('src', url);
+    });
+}
+
 $(document).ready(function () {
     // Abre o modal de loading IMEDIATAMENTE, antes de qualquer outra inicialização.
     // O splash em #preloadSplash continua visível por baixo, evitando qualquer flash do conteúdo.
@@ -422,6 +457,8 @@ $(document).ready(function () {
                     vTurma = value.Turma.trim();
                     vNomeAluno = $.trim($(".nomeAluno").text());
                     vSenhaNet = value.SenhaNet;
+
+                    carregarFotoAluno(value.Escola, value.Codigo);
 
                     // Reaplica os handlers e dispara o home para reinicializar a view
                     $(".home").off('click').on('click', homeClick).trigger('click');
