@@ -1,7 +1,7 @@
 <?php
 // Versão dos assets — incremente sempre que alterar JS/CSS para forçar refresh
 // no navegador dos usuários (cache busting).
-$ASSET_VERSION = '20261028b';
+$ASSET_VERSION = '20261028c';
 
 // ===== Rotina de entrada (antes ficava no open.php) =====
 // Lê os parâmetros do dispositivo, do jeito que vêm na URL.
@@ -2043,8 +2043,8 @@ $paramsJson   = json_encode($params, $jsonFlags);
             }
 
             // Busca o objeto do aluno. O índice só é aceito se realmente casar com o
-            // item clicado — após a deduplicação da lista o data-index pode não
-            // corresponder ao window.$alunos (que mantém as duplicatas).
+            // item clicado — o lib.js já deduplica window.$alunos, mas a busca por
+            // Codigo+Escola fica como rede de segurança caso os índices divirjam.
             var aluno = null;
             if (window.$alunos && window.$alunos.length) {
                 if (!isNaN(idx) && bate(window.$alunos[idx])) {

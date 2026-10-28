@@ -398,6 +398,21 @@ $(document).ready(function () {
                 $alunos = $dados.alunos;
                 $local = $dados.local;
 
+                // A API appaluno pode devolver o mesmo aluno (Escola+Codigo) mais de
+                // uma vez. Deduplica aqui, na origem, para que sidebar, grade de alunos
+                // (alunos.js) e buscas por índice trabalhem sobre a mesma lista.
+                if ($.isArray($alunos)) {
+                    var _vistos = {};
+                    $alunos = $alunos.filter(function (a) {
+                        if (!a || a.Codigo == null) return true;
+                        var chave = String(a.Escola == null ? '' : a.Escola) + '|' + String(a.Codigo);
+                        if (_vistos[chave]) return false;
+                        _vistos[chave] = true;
+                        return true;
+                    });
+                    $dados.alunos = $alunos;
+                }
+
                 // Função reutilizável: aplica os dados de um aluno (objeto da API)
                 // em toda a interface. Usada tanto no carregamento inicial (1º aluno)
                 // quanto quando o usuário troca de aluno via sidebar.
